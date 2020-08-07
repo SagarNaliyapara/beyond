@@ -1,1 +1,0 @@
-React native expo app
