@@ -36,7 +36,9 @@
         "com.sec.android.provider.badge.permission.READ",
         "com.sec.android.provider.badge.permission.WRITE",
         "com.sonyericsson.home.permission.BROADCAST_BADGE"
-      ]
+      ],
+      "googleServicesFile": "./google-services.json",
+      "package": "com.beyond"
     },
     "description": "",
     "sdkVersion": "37.0.0",
