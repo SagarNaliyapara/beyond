@@ -70,27 +70,27 @@ const DATA = [
 ];
 
 
-const makePayment = (userid, package_id, transaction_id, amount)=>{
- let formdata = new FormData()
- formdata.append("user_id", userid)
- formdata.append("package_id",package_id )
- formdata.append("transaction_id",transaction_id)
- formdata.append("amount", amount)
+const makePayment = (userid, package_id, transaction_id, amount) => {
+  let formdata = new FormData()
+  formdata.append("user_id", userid)
+  formdata.append("package_id", package_id)
+  formdata.append("transaction_id", transaction_id)
+  formdata.append("amount", amount)
 
- fetch('https://beyond-pa.com/api/make_payment',{
-  method: 'post',
-  headers: {
-    Accept: "application/json",
-    'Content-Type': 'multipart/form-data',
-  },
-  body: formdata
+  fetch('https://beyond-pa.com/api/make_payment', {
+    method: 'post',
+    headers: {
+      Accept: "application/json",
+      'Content-Type': 'multipart/form-data',
+    },
+    body: formdata
   }).then(response => {
     // console.log("payment done", response)
     // alert(JSON.stringify(response))
 
   }).catch(err => {
     console.log(err)
-  })  
+  })
 }
 
 
@@ -99,6 +99,8 @@ const Subscribe = (props) => {
 
   const appRed = useSelector((state) => state.app);
   const authRed = useSelector((state) => state.auth);
+  const [selectedPkg, onChnageSelectedPkg] = useState('');
+  const [selectedUser, onChnageSelectedUser] = useState('');
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(Actions.getPackagePlansAttempt());
@@ -107,10 +109,10 @@ const Subscribe = (props) => {
   return (
     <ImageBackground
       source={require("../../assets/bg.png")}
-      style={appRed.shoPaymentWebView == false ? styles.container:styles.container1}
+      style={appRed.shoPaymentWebView == false ? styles.container : styles.container1}
     >
       <View style={styles.header}>
-       
+
         <HeaderSmall leftIcon="menu" rightIcon="settings" />
       </View>
       <View
@@ -119,94 +121,94 @@ const Subscribe = (props) => {
           { flexDirection: appRed.locale == "en" ? "row" : "row-reverse" },
         ]}
       >
-        
+
         <Text style={styles.title}>{getText("SUBSCRIBE", appRed.locale)}</Text>
       </View>
-      {appRed.shoPaymentWebView == true ? <View style={{height:"100%",width:"100%" }}>
-      <TouchableOpacity onPress={()=>{dispatch(Actions.showPaymentWebView(false))}}
-      style ={{height:30,width:30,borderRadius:15,alignSelf:"flex-end",justifyContent:"center"}}>
-         <AntDesign name="close" size={24} color={"black"} />
-      </TouchableOpacity>
-       
+      {appRed.shoPaymentWebView == true ? <View style={{ height: "100%", width: "100%" }}>
+        <TouchableOpacity onPress={() => { dispatch(Actions.showPaymentWebView(false)) }}
+          style={{ height: 30, width: 30, borderRadius: 15, alignSelf: "flex-end", justifyContent: "center" }}>
+          <AntDesign name="close" size={24} color={"black"} />
+        </TouchableOpacity>
         <WebView
-          source={{ uri: "https://beyond-ksa.com/paytab_payment" }}
-          >
-            
-          </WebView>
-      </View>:
-     
-      <View style={styles.body}>
-       
-        <SwiperFlatList showPagination paginationActiveColor={theme.primary}>
-          {appRed.package_plans.map((pkg, index) => {
-            return (
-              <View key={index + ""} style={styles.slide1}>
-                {/* PLAN TITLE  */}
-                <TouchableOpacity style={styles.mainContainer}>
-                  <Text style={styles.planTitle}>BEYOND PLUS</Text>
-                  <View
-                    style={{
-                      flexDirection:
-                        appRed.locale == "en" ? "row" : "row-reverse",
-                      alignItems: "center",
+          source={{ uri: "https://beyond-ksa.com/paytab_payment?package_id=" + selectedPkg + "&" + "user_id=" + selectedUser }}
+        >
+        </WebView>
+      </View> :
+
+        <View style={styles.body}>
+
+          <SwiperFlatList showPagination paginationActiveColor={theme.primary}>
+            {appRed.package_plans.map((pkg, index) => {
+              return (
+                <View key={index + ""} style={styles.slide1}>
+                  {/* PLAN TITLE  */}
+                  <TouchableOpacity style={styles.mainContainer}>
+                    <Text style={styles.planTitle}>BEYOND PLUS</Text>
+                    <View
+                      style={{
+                        flexDirection:
+                          appRed.locale == "en" ? "row" : "row-reverse",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Text style={styles.planCost}>
+                        {appRed.locale == "en" ? pkg.name_en : pkg.name_ar}
+                      </Text>
+                      <Text style={styles.planDuration}>/</Text>
+                      <Text style={styles.planDuration}>{pkg.duration}</Text>
+                    </View>
+                  </TouchableOpacity>
+
+                  <View style={{ height: hp(40) }}>
+                    <FlatList
+                      data={
+                        appRed.locale == "en"
+                          ? pkg.features.english
+                          : pkg.features.arabic
+                      }
+                      renderItem={({ item }) => (
+                        <View
+                          style={{
+                            flexDirection:
+                              appRed.locale == "en" ? "row" : "row-reverse",
+                            alignItems: "center",
+                          }}
+                        >
+                          <Image
+                            source={require("../../assets/tick.png")}
+                            style={{ width: 15, height: 15 }}
+                          />
+                          <Text style={styles.featureText}>{item}</Text>
+                        </View>
+                      )}
+                      keyExtractor={(item) => item.id}
+                    />
+                  </View>
+
+                  <TouchableOpacity
+                    style={styles.mainBtn}
+                    onPress={() => {
+                      onChnageSelectedPkg(pkg.id)
+                      onChnageSelectedUser(authRed.user_id)
+                      makePayment(authRed.user_id, pkg.id, "", 20)
+                      dispatch(Actions.showPaymentWebView(true))
+                      // dispatch(Actions.getSavePlansAttempt(pkg.id,authRed.user_id,"coupen_id" ))
                     }}
                   >
-                    <Text style={styles.planCost}>
-                      {appRed.locale == "en" ? pkg.name_en : pkg.name_ar}
+                    <Text style={styles.btnText}>
+                      {getText("SUBSCRIBE", appRed.locale)}
                     </Text>
-                    <Text style={styles.planDuration}>/</Text>
-                    <Text style={styles.planDuration}>{pkg.duration}</Text>
-                  </View>
-                </TouchableOpacity>
-
-                <View style={{ height: hp(40) }}>
-                  <FlatList
-                    data={
-                      appRed.locale == "en"
-                        ? pkg.features.english
-                        : pkg.features.arabic
-                    }
-                    renderItem={({ item }) => (
-                      <View
-                        style={{
-                          flexDirection:
-                            appRed.locale == "en" ? "row" : "row-reverse",
-                          alignItems: "center",
-                        }}
-                      >
-                        <Image
-                          source={require("../../assets/tick.png")}
-                          style={{ width: 15, height: 15 }}
-                        />
-                        <Text style={styles.featureText}>{item}</Text>
-                      </View>
-                    )}
-                    keyExtractor={(item) => item.id}
-                  />
+                  </TouchableOpacity>
                 </View>
+              );
+            })}
+          </SwiperFlatList>
+        </View>
+      }
 
-                <TouchableOpacity
-                  style={styles.mainBtn}
-                  onPress={() => {
-                    makePayment(authRed.user_id,pkg.id, "", 20 )
-                    dispatch(Actions.showPaymentWebView(true))
-                    // dispatch(Actions.getSavePlansAttempt(pkg.id,authRed.user_id,"coupen_id" ))
-                  }}
-                >
-                  <Text style={styles.btnText}>
-                    {getText("SUBSCRIBE", appRed.locale)}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            );
-          })}
-        </SwiperFlatList>
-      </View>
-}
 
-      
-  </ImageBackground>
-      
+    </ImageBackground>
+
   );
 };
 export default Subscribe;
@@ -215,12 +217,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: Platform.OS === "ios" ? 24 : 0,
-   
+
   },
   container1: {
     flex: 1,
-    
-   
+
+
   },
   header: {
     flex: 1,
@@ -250,7 +252,7 @@ const styles = StyleSheet.create({
     width,
     paddingHorizontal: 25,
     paddingTop: hp(2),
-  
+
   },
   slide2: {
     flex: 1,
