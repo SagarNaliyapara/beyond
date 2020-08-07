@@ -31,14 +31,15 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.beyond",
+      "versionCode": 1,
+      "googleServicesFile": "./google-services.json",
       "permissions": [
         "com.majeur.launcher.permission.UPDATE_BADGE",
         "com.sec.android.provider.badge.permission.READ",
         "com.sec.android.provider.badge.permission.WRITE",
         "com.sonyericsson.home.permission.BROADCAST_BADGE"
-      ],
-      "googleServicesFile": "./google-services.json",
-      "package": "com.beyond"
+      ]
     },
     "description": "",
     "sdkVersion": "37.0.0",
