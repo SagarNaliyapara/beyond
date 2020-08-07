@@ -130,6 +130,16 @@ const Subscribe = (props) => {
           <AntDesign name="close" size={24} color={"black"} />
         </TouchableOpacity>
         <WebView
+          onNavigationStateChange={(state) => {
+            console.log("st", state.url)
+            if (state.url == "https://beyond-pa.com/success") {
+              dispatch(Actions.showPaymentWebView(false))
+              alert('Payment Successfully Recived ')
+            } else if (state.url == "https://beyond-pa.com/error") {
+              dispatch(Actions.showPaymentWebView(false))
+              alert('Payment Fail ')
+            }
+          }}
           source={{ uri: "https://beyond-ksa.com/paytab_payment?package_id=" + selectedPkg + "&" + "user_id=" + selectedUser }}
         >
         </WebView>
