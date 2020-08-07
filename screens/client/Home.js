@@ -47,14 +47,65 @@ class Home extends Component {
     visible: false,
     recordingPermission: false
   };
-  
 
+  async  registerForPushNotificationsAsync() {
+    let token;
+    const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+    if (existingStatus !== 'granted') {
+      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+      finalStatus = status;
+    }
+    if (finalStatus !== 'granted') {
+      alert('Failed to get push token for push notification!');
+      return;
+    }
+    token = (await Notifications.getExpoPushTokenAsync()).data;
+    console.log("tempppp", token)
+    if (Platform.OS === 'android') {
+      Notifications.setNotificationChannelAsync('default', {
+        name: 'default',
+        importance: Notifications.AndroidImportance.MAX,
+        vibrationPattern: [0, 250, 250, 250],
+        lightColor: '#FF231F7C',
+      });
+    }
+    return token;
+  }
+
+  tokenApiCall(token) {
+
+    const options = {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + this.props.token,
+        body: {
+          token: token
+        }
+      },
+    };
+    console.log("fetsddfsd", options, this.props.id)
+
+    fetch("https://beyond-ksa.com/api/token/" + this.props.id, options)
+      .then(red => red.json())
+      .then(res => {
+
+        console.log("res =====", res)
+        toastRef.close();
+        if (res.success) {
+          alert(res.success);
+        }
+
+      })
+  }
 
   async componentWillMount() {
-    const { navigation, name, locale,id } = this.props;
-   
-  
-
+    const { navigation, name, locale, id } = this.props;
+    this.tokenApiCall("ExponentPushToken[_3VfkhP3mlr6_06nqSZemY]")
+    registerForPushNotificationsAsync().then(token => {
+      this.tokenApiCall(token)
+    });
     // this.props.dispatch(Actions.getCitiesAttempt());
     this.props.dispatch(Actions.getVoiceMessagesAttempt());
     this.props.dispatch(Actions.getNewContact(this.props.id));
@@ -104,7 +155,7 @@ class Home extends Component {
               >
                 {name}
               </Text>
-              <TransText  onPress={() => navigation.navigate("ProfileTab")}
+              <TransText onPress={() => navigation.navigate("ProfileTab")}
                 style={[
                   styles.subtitle,
                   locale == "ar" && { textAlign: "right" },
@@ -251,7 +302,7 @@ class Home extends Component {
             <Text style={styles.menutext}>Order History</Text>
           </TouchableOpacity>
         </View>
-        
+
       </ImageBackground>
     );
   }
@@ -355,7 +406,7 @@ const mapStateToProps = (state) => {
     locale: state.app.locale,
     name: state.auth.name,
     token: state.auth.token,
-    id:state.auth.user_id
+    id: state.auth.user_id
   }
 };
 
