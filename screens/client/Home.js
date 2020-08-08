@@ -39,6 +39,7 @@ import RecordingModal from "../../components/both/AudioRecordingModal";
 import Actions from "../../actions/creator"
 
 import CustomizedBottomTabBar from '../../components/both/CustomizedBottomTabBar';
+import {Notifications} from "expo";
 
 const sampleimg = "https://randomuser.me/api/portraits/men/29.jpg";
 
@@ -48,32 +49,20 @@ class Home extends Component {
     recordingPermission: false
   };
 
-  async  registerForPushNotificationsAsync() {
-    let token;
-    const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+  async registerForPushNotificationsAsync() {
+    const {status: existingStatus} = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+    let finalStatus = existingStatus;
     if (existingStatus !== 'granted') {
-      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+      const {status} = await Permissions.askAsync(Permissions.NOTIFICATIONS);
       finalStatus = status;
     }
     if (finalStatus !== 'granted') {
-      alert('Failed to get push token for push notification!');
-      return;
+      return null;
     }
-    token = (await Notifications.getExpoPushTokenAsync()).data;
-    console.log("tempppp", token)
-    if (Platform.OS === 'android') {
-      Notifications.setNotificationChannelAsync('default', {
-        name: 'default',
-        importance: Notifications.AndroidImportance.MAX,
-        vibrationPattern: [0, 250, 250, 250],
-        lightColor: '#FF231F7C',
-      });
-    }
-    return token;
+    return await Notifications.getExpoPushTokenAsync();
   }
 
   tokenApiCall(token) {
-
     const options = {
       method: 'POST',
       headers: {
@@ -87,25 +76,23 @@ class Home extends Component {
     };
 
     fetch("https://beyond-ksa.com/api/token/" + this.props.id, options)
-      .then(red => red.json())
-      .then(res => {
-
-        console.log("res =====", res)
-        toastRef.close();
-        if (res.success) {
-          alert(res.success);
-        }
-
-      })
+        .then(red => red.json())
+        .then(res => {
+          toastRef.close();
+          if (res.success) {
+            alert(res.success);
+          }
+        })
   }
 
   async componentWillMount() {
 
 
     const { navigation, name, locale, id } = this.props;
-    // this.tokenApiCall("ExponentPushToken[_3VfkhP3mlr6_06nqSZemY]")
-    registerForPushNotificationsAsync().then(token => {
-      this.tokenApiCall(token)
+    this.registerForPushNotificationsAsync().then(token => {
+      if (token) {
+        this.tokenApiCall(token)
+      }
     });
     // this.props.dispatch(Actions.getCitiesAttempt());
     this.props.dispatch(Actions.getVoiceMessagesAttempt());
