@@ -221,7 +221,7 @@ class Menu extends Component {
               drawer.current.close();
             }}
           >
-            <TransText style={styles.menuItemText} transkey="MENU_CONTACT_US" />
+            {/* <TransText style={styles.menuItemText} transkey="MENU_CONTACT_US" /> */}
           </TouchableOpacity>
           <TransText style={styles.powText} transkey="MENU_POW_BY" />
         </ScrollView>
@@ -282,7 +282,7 @@ const styles = StyleSheet.create({
   powText: {
     color: "white",
     paddingHorizontal: 10,
-    fontSize: helpers.size(13),
+    fontSize: helpers.size(11),
     marginBottom: 20,
   },
 });
