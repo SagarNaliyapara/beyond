@@ -2,6 +2,7 @@ import Immutable from 'seamless-immutable'
 import { createReducer } from 'reduxsauce'
 import { REHYDRATE } from 'redux-persist/constants'
 import Type from '../actions/type'
+import reactotron from 'reactotron-react-native';
 // import UserActionsType from '../../user/actions/type'
 
 export const INITIAL_STATE = Immutable({
@@ -20,30 +21,38 @@ export const INITIAL_STATE = Immutable({
 	workField: "",
 	code: "",
 	screenBeforeOptScreen: "",
-	cities:[],
-	secretary_id:'',
-	user_id:'',
+	cities: [],
+	secretary_id: '',
+	user_id: '',
 	subscription: null,
-	userType:""
+	userType: "",
+	arCities: [],
 })
 
 const getCitiesSuccess = (state, action) => {
 
-	let cities =[]
-	action.cities.map((city)=>{
+	reactotron.log("ac", action)
+
+	let cities = [];
+	let arCities = [];
+	action.cities.map((city) => {
 		cities.push({
 			id: city.id,
 			value: city.name
 		})
+		arCities.push({
+			id: city.id,
+			value: city.ar_name
+		})
 
 	})
-	return state.merge({ cities: cities })
+	return state.merge({ cities: cities, arCities: arCities })
 }
 
 
 const resetAuth = state => state.merge({ attempting: false, errorCode: null })
 const loginAttempt = state => state.merge({ attempting: true, errorCode: null })
-const loginSuccess = (state, { token, name,secretary_id,user_id, subscription ,userType}) => state.merge({ ...INITIAL_STATE, token, name,user_id,secretary_id, subscription,userType })
+const loginSuccess = (state, { token, name, secretary_id, user_id, subscription, userType }) => state.merge({ ...INITIAL_STATE, token, name, user_id, secretary_id, subscription, userType })
 const loginFailure = (state, { errorCode }) => state.merge({ ...INITIAL_STATE, errorCode })
 
 
@@ -118,7 +127,7 @@ const ACTION_HANDLERS = {
 	[Type.SEND_PHONE_VERIFICATION_NUMBER_FAILURE]: sendPhoneVerificationNumberFailure,
 	[Type.SIGNOUT]: signout,
 
-	[Type.GET_CITIES_SUCCESS]:getCitiesSuccess,
+	[Type.GET_CITIES_SUCCESS]: getCitiesSuccess,
 	[REHYDRATE]: rehydrate,
 }
 

@@ -27,6 +27,7 @@ import TransText from "../../components/both/transtext";
 import Actions from "../../actions/creator"
 import flag from "../../assets/flag.png"
 import helpers from "../../components/styles/helpers";
+import reactotron from "reactotron-react-native";
 //edit the values for the picker(dropdown) component here
 let cityList = [{
     value: 'City1',
@@ -59,7 +60,8 @@ const SignUp = (props) => {
         flag: 'flag-us',
         name: 'United States',
         region: 'Americas',
-        subregion: 'North America'})
+        subregion: 'North America'
+    })
 
     const [email, setEmail] = useState('Devhere17@gmail.com')
     const [password, setPassword] = useState('12345678')
@@ -75,9 +77,9 @@ const SignUp = (props) => {
     // const [country, setCountry] = useState({ callingCode: [966] })
     // const [withCallingCode, setWithCallingCode] = useState(true)
     const navigation = useNavigation();
-    
 
-    
+
+
 
     const onSelect = (country) => {
         setCountry(country)
@@ -87,8 +89,8 @@ const SignUp = (props) => {
     useEffect(() => {
         props.dispatch(Actions.getCitiesAttempt())
         setGetCities[true]
-      },[getcities])
-    
+    }, [getcities])
+
 
     const authRed = useSelector(state => state.auth);
 
@@ -166,7 +168,7 @@ const SignUp = (props) => {
                         <MaterialCommunityIcons name="phone" size={20} color={theme.primary} />
                         {props.locale == "en" && <TransText style={styles.placeholder} transkey="PHONE_NUMBER_REQUIRED" />}
                     </View>
-                    <View style={[styles.inputfield, props.locale == "ar" && { flexDirection:"row-reverse" }]}>
+                    <View style={[styles.inputfield, props.locale == "ar" && { flexDirection: "row-reverse" }]}>
                         {/* {props.locale == "en" && <CountryPicker {...{ countryCode, withCallingCode, country, onSelect }} />}
                         {props.locale == "en" && <View style={{ width: 2, height: '100%', backgroundColor: '#e5e5e5', marginRight: 5 }}></View>}
                         <TextInput keyboardType={"numeric"} value={phoneNumber} onChangeText={(text) => setPhoneNumber(text)}
@@ -185,8 +187,8 @@ const SignUp = (props) => {
                             fontSize: theme.large,
                             marginLeft: 5
                         }}>(+966)</Text> */}
-                        <CountryPicker withFilter withCallingCode countryCode={country.cca2} onSelect={onSelect}  />
-              <Text style={{   textAlign: 'left',color:"black"}}>{"+"+country.callingCode[0]}</Text>
+                        <CountryPicker withFilter withCallingCode countryCode={country.cca2} onSelect={onSelect} />
+                        <Text style={{ textAlign: 'left', color: "black" }}>{"+" + country.callingCode[0]}</Text>
                         <View style={{ width: 2, height: '100%', backgroundColor: '#e5e5e5', marginRight: 5, marginLeft: 5 }}></View>
                         <TextInput keyboardType={"numeric"} value={phoneNumber} onChangeText={(text) => setPhoneNumber(text)}
                             maxLength={40} style={[styles.textinputstyle, props.locale == "ar" && { textAlign: 'right' }]} />
@@ -209,7 +211,9 @@ const SignUp = (props) => {
                     </View>
 
                     {/* This is city container, edit your list of cities here */}
-
+                    {
+                        reactotron.log("authRed.cities", authRed)
+                    }
                     <View style={[styles.nextcontainer, props.locale == "ar" && { justifyContent: 'flex-end' }]}>
                         {props.locale == "ar" && <TransText style={[styles.placeholder, { paddingRight: 10 }]} transkey="CITY" />}
                         <EvilIcons name="location" size={20} color={theme.primary} />
@@ -222,7 +226,7 @@ const SignUp = (props) => {
                             onChangeText={(value) => setCity(value)}
                             containerStyle={{ height: '100%', width: '95%', justifyContent: 'center', paddingBottom: 20 }}
                             placeholder="City1"
-                            data={authRed.cities}
+                            data={props.locale == "ar" ? authRed.arCities : authRed.cities}
                         />
                     </View>
 
@@ -324,7 +328,7 @@ const SignUp = (props) => {
                     <TouchableOpacity style={styles.guestbtn}
                         disabled={props.attempting || !isChecked || !email || !password || !name || !phoneNumber}
                         onPress={() => {
-                       
+
                             let user = {
                                 email: email,
                                 password: password,
