@@ -138,14 +138,13 @@ const signout = state => state.merge({ ...INITIAL_STATE })
 const getHomeScreenTextRequest = state => state.merge({ loaded: true, })
 
 const getHomeScreenTextRequestSuccess = (state, action) => {
-	state.merge({
+	// reactotron.log("action444", action)
+	return state.merge({
 		homeScreenMessage: action.value
 	})
 }
 
-const getHomeScreenTextRequestFailure = state => {
-
-}
+const getHomeScreenTextRequestFailure = state => state.merge({ loaded: true, })
 
 // map our types to our handlers
 const ACTION_HANDLERS = {

@@ -85,7 +85,6 @@ class Home extends Component {
         }
       },
     };
-    console.log("fetsddfsd", options, this.props.id)
 
     fetch("https://beyond-ksa.com/api/token/" + this.props.id, options)
       .then(red => red.json())
@@ -101,7 +100,7 @@ class Home extends Component {
   }
 
   async componentWillMount() {
-    this.props.dispatch(Actions.getHomeScreenTextRequest());
+
 
     const { navigation, name, locale, id } = this.props;
     // this.tokenApiCall("ExponentPushToken[_3VfkhP3mlr6_06nqSZemY]")

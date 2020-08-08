@@ -501,7 +501,7 @@ export default (api) => {
       if (response && response.ok && response.data) {
         reactotron.log("response.data", response.data)
         yield put(Actions.getHomeScreenTextRequestSuccess(response.data));
-        alert(JSON.stringify(response.data.message))
+        // alert(JSON.stringify(response.data.message))
       }
     } catch (err) {
       alert(err)
