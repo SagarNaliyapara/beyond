@@ -1,5 +1,5 @@
 //Order history screen design from the both panel
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
 import {
   View,
   Text,
@@ -17,6 +17,8 @@ import {
 import Footer from "../../components/both/Footer";
 import HeaderSmall from "../../components/both/HeaderSmall";
 import RequestListCard from "../../components/secretary/RequestListCard";
+import Actions from "../../actions/creator"
+
 //replace with your json data for order history
 const requestlist = [
   {
@@ -87,6 +89,12 @@ const requestlist = [
 const RequestList = () => {
   const appRed = useSelector((state) => state.app);
   // alert(JSON.stringify(appRed.voiceMessages));
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(Actions.getVoiceMessagesAttempt())
+    // 
+  }, []);
+
 
   let id = 0;
 
