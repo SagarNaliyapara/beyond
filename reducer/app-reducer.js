@@ -2,6 +2,7 @@ import Immutable from 'seamless-immutable'
 import { createReducer } from 'reduxsauce'
 
 import Type from '../actions/type'
+import reactotron from 'reactotron-react-native';
 // import UserActionsType from '../../user/actions/type'
 
 export const INITIAL_STATE = Immutable({
@@ -12,31 +13,32 @@ export const INITIAL_STATE = Immutable({
 	gettingNotifications: false,
 	locale: 'en',
 	isLoadedVideo: true,
-	cites:[],
-	voiceMessages:null,
-	messages:[],
-	sendMessage:[],
-	package_features:[],
-	package_plans:[],
-	package_durations:[],
-	tripsData:[],
-	calendarData:[],
-	socialsData:[],
-	mettingsData:[],
-	hotelsData:[],
-	secondaryServiceData:[],
-	contactsData:[],
-	shoPaymentWebView:false
-	
+	cites: [],
+	voiceMessages: null,
+	messages: [],
+	sendMessage: [],
+	package_features: [],
+	package_plans: [],
+	package_durations: [],
+	tripsData: [],
+	calendarData: [],
+	socialsData: [],
+	mettingsData: [],
+	hotelsData: [],
+	secondaryServiceData: [],
+	contactsData: [],
+	shoPaymentWebView: false,
+	homeScreenMessage: ""
+
 })
 
-const showPaymentWebView = (state, action)=>{
-	return state.merge({ shoPaymentWebView:action.value })
+const showPaymentWebView = (state, action) => {
+	return state.merge({ shoPaymentWebView: action.value })
 }
 
-const saveNewContacts= (state, action)=>{
+const saveNewContacts = (state, action) => {
 	// alert(JSON.stringify(action.contactsData))
-	return state.merge({ contactsData:action.contactsData })
+	return state.merge({ contactsData: action.contactsData })
 }
 // const addNewContact = (state, action) => {
 // 	console.log("New contact ====== ", action.contact)
@@ -55,10 +57,10 @@ const getVoiceMessagesSuccess = (state, action) => {
 const getMessagesSuccess = (state, action) => {
 	// alert(JSON.stringify( action.messages))
 	let reverseArray = [];
-	if(action.messages &&  action.messages.length > 0){
+	if (action.messages && action.messages.length > 0) {
 		reverseArray = action.messages.reverse()
 	}
-	return {...state,messages:  reverseArray}
+	return { ...state, messages: reverseArray }
 }
 const sendMessagesSuccess = (state, action) => {
 	// alert(JSON.stringify(action ))
@@ -132,22 +134,35 @@ const getNotificationsSuccess = (state, { notifications }) =>
 const setLanguage = (state, { locale }) => state.merge({ locale })
 const signout = state => state.merge({ ...INITIAL_STATE })
 
+
+const getHomeScreenTextRequest = state => state.merge({ loaded: true, })
+
+const getHomeScreenTextRequestSuccess = (state, action) => {
+	state.merge({
+		homeScreenMessage: action.value
+	})
+}
+
+const getHomeScreenTextRequestFailure = state => {
+
+}
+
 // map our types to our handlers
 const ACTION_HANDLERS = {
 	// [Type.ADD_NEW_CONTACT]:addNewContact,
-	[Type.GET_NEW_CONTACTS_SUCCESS]:saveNewContacts,
-	[Type.GET_MESSAGES_SUCCESS]:getMessagesSuccess,
-	[Type.SEND_MESSAGES_SUCCESS]:sendMessagesSuccess,
-	[Type.GET_VOICE_MESSAGES_SUCCESS]:getVoiceMessagesSuccess,
-	[Type.GET_CITIES_ATTEMPT]:getCitiesSuccess,
+	[Type.GET_NEW_CONTACTS_SUCCESS]: saveNewContacts,
+	[Type.GET_MESSAGES_SUCCESS]: getMessagesSuccess,
+	[Type.SEND_MESSAGES_SUCCESS]: sendMessagesSuccess,
+	[Type.GET_VOICE_MESSAGES_SUCCESS]: getVoiceMessagesSuccess,
+	[Type.GET_CITIES_ATTEMPT]: getCitiesSuccess,
 	[Type.APP_START_ATTEMPT]: appStartAttempt,
 	[Type.APP_START_SUCCESS]: appStartSuccess,
 	[Type.APP_RESET_ATTEMPT]: appResetAttempt,
 	[Type.APP_RESET_SUCCESS]: appResetSuccess,
 	[Type.APP_SET_LOADED_VIDEO]: setLoadedVideo,
-	[Type.GET_PACKAGE_FEATURES_SUCCESS]:getPackageFeaturesSuccess,
-	[Type.GET_PACKAGE_PLANS_SUCCESS]:getPlansFeaturesSuccess,
-	[Type.GET_PACKAGE_DURATIONS_SUCCESS]:getPackageDurationsSuccess,
+	[Type.GET_PACKAGE_FEATURES_SUCCESS]: getPackageFeaturesSuccess,
+	[Type.GET_PACKAGE_PLANS_SUCCESS]: getPlansFeaturesSuccess,
+	[Type.GET_PACKAGE_DURATIONS_SUCCESS]: getPackageDurationsSuccess,
 
 	[Type.SET_NOTIFICATION]: setNotification,
 	[Type.RESET_NOTIFICATION]: resetNotification,
@@ -160,14 +175,18 @@ const ACTION_HANDLERS = {
 	[Type.SET_LANGUAGE]: setLanguage,
 
 	[Type.SIGNOUT]: signout,
-	[Type.GET_TRIPS_SUCCESS]:getTripsData,
-	[Type.GET_TRIPS_ATTEMPT]:setTripsDataEmpty,
-	[Type.GET_SOCIALEVENTS_SUCCESS]:getSocialEventsData,
-	[Type.GET_METTINGS_SUCCESS]:getMettingsData,
-	[Type.GET_HOTEL_SUCCESS]:getHotelsData,
-	[Type.GET_SECONDARY_SERVICE_SUCCESS]:getSecondaryServiceData,
-	[Type.GET_CALENDER_SUCCESS]:getCalenderData,
-	[Type.SHOW_PAYMENT_VIEW]:showPaymentWebView
+	[Type.GET_TRIPS_SUCCESS]: getTripsData,
+	[Type.GET_TRIPS_ATTEMPT]: setTripsDataEmpty,
+	[Type.GET_SOCIALEVENTS_SUCCESS]: getSocialEventsData,
+	[Type.GET_METTINGS_SUCCESS]: getMettingsData,
+	[Type.GET_HOTEL_SUCCESS]: getHotelsData,
+	[Type.GET_SECONDARY_SERVICE_SUCCESS]: getSecondaryServiceData,
+	[Type.GET_CALENDER_SUCCESS]: getCalenderData,
+	[Type.SHOW_PAYMENT_VIEW]: showPaymentWebView,
+
+	[Type.GET_HOME_SCREEN_TEXT_REQUEST]: getHomeScreenTextRequest,
+	[Type.GET_HOME_SCREEN_TEXT_REQUEST_SUCCESS]: getHomeScreenTextRequestSuccess,
+	[Type.GET_HOME_SCREEN_TEXT_REQUEST_FAILURE]: getHomeScreenTextRequestFailure,
 
 }
 

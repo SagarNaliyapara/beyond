@@ -1,5 +1,6 @@
 import apisauce from "apisauce";
 import AppConfig from "../config/app-config";
+import Reactotron from "reactotron-react-native"
 
 import ENDPOINT from "../config/endpoint";
 // TODO
@@ -18,6 +19,16 @@ const core = (baseURL = AppConfig.API_URL) => {
       Accept: "application/json",
     },
     timeout: 20000,
+  });
+
+  api.addAsyncRequestTransform(request => async () => {
+    Reactotron.log("rr", request)
+    console.log("req", request)
+  })
+  // // For Monitoring the status and handele the errors
+  api.addMonitor(response => {
+    Reactotron.log("mm", response)
+    console.log("res", response)
   });
 
   const login = (user) => api.post(ENDPOINT.LOGIN, user);
@@ -49,34 +60,34 @@ const core = (baseURL = AppConfig.API_URL) => {
     }
   };
 
-  const getMessages = (user_id) => api.get(ENDPOINT.GET_MESSAGES,{user_id: user_id});
+  const getMessages = (user_id) => api.get(ENDPOINT.GET_MESSAGES, { user_id: user_id });
   const getPackageFeatures = () => api.get(ENDPOINT.GET_PACKAGE_FEATURES);
   const getPlansFeatures = () => api.get(ENDPOINT.GET_PLANS_FEATURES);
   const getPackageDurations = () => api.get(ENDPOINT.GET_PACKAGE_DURATIONS);
-  const savePlansFeatures = (plan_id,user_id,coupon_id) => api.post(ENDPOINT.SAVE_PLANS_FEATURES,{plan_id:plan_id,user_id:user_id,coupon_id:coupon_id});
+  const savePlansFeatures = (plan_id, user_id, coupon_id) => api.post(ENDPOINT.SAVE_PLANS_FEATURES, { plan_id: plan_id, user_id: user_id, coupon_id: coupon_id });
   const getTripCreate = (trip) => api.post(ENDPOINT.GET_TRIP_CREATE, trip)
   const getAppointmentCreate = (appointment) => api.post(ENDPOINT.GET_APPOINTMENT_CREATE, appointment)
-  const getSocialEventCreate = (socialEvent) => api.post(ENDPOINT.GET_SOCIALEVENT_CREATE,socialEvent)
-  const mettingsCreate = (mettings) => api.post(ENDPOINT.GET_MEETINGS_CREATE,mettings)
-  const socialServiceCreate = (socialService) => api.post(ENDPOINT.GET_SOCIALSERVICE_CREATE,socialService)
-  const hotelBookingCreate = (hotelBooking) => api.post(ENDPOINT.GET_HOTELBOOKING_CREATE,hotelBooking)
-  const getTripsData = (tripData) => api.post(ENDPOINT.GET_TRIPS_DATA,tripData);
-  const getSocialEventsData = (socialData) => api.post(ENDPOINT.GET_TRIPS_DATA,socialData);
-  const getMettingsData = (mettingData) => api.post(ENDPOINT.GET_TRIPS_DATA,mettingData);
-  const getHotelsData = (hotelData) => api.post(ENDPOINT.GET_TRIPS_DATA,hotelData);
-  const getSecondaryServiceData = (secondaryData) => api.post(ENDPOINT.GET_TRIPS_DATA,secondaryData);
-  const getCalenderData = (calenderData) => api.post(ENDPOINT.GET_TRIPS_DATA,calenderData);
-  const addContact = (contact) => api.post(ENDPOINT.ADD_CONTACT,contact);
-  const getContacts = (id) => api.get(ENDPOINT.GET_CONTACTS + "/"+id);
-  const deletContacts = (id) => api.get(ENDPOINT.DELETE_CONTACTS + "/"+id);
+  const getSocialEventCreate = (socialEvent) => api.post(ENDPOINT.GET_SOCIALEVENT_CREATE, socialEvent)
+  const mettingsCreate = (mettings) => api.post(ENDPOINT.GET_MEETINGS_CREATE, mettings)
+  const socialServiceCreate = (socialService) => api.post(ENDPOINT.GET_SOCIALSERVICE_CREATE, socialService)
+  const hotelBookingCreate = (hotelBooking) => api.post(ENDPOINT.GET_HOTELBOOKING_CREATE, hotelBooking)
+  const getTripsData = (tripData) => api.post(ENDPOINT.GET_TRIPS_DATA, tripData);
+  const getSocialEventsData = (socialData) => api.post(ENDPOINT.GET_TRIPS_DATA, socialData);
+  const getMettingsData = (mettingData) => api.post(ENDPOINT.GET_TRIPS_DATA, mettingData);
+  const getHotelsData = (hotelData) => api.post(ENDPOINT.GET_TRIPS_DATA, hotelData);
+  const getSecondaryServiceData = (secondaryData) => api.post(ENDPOINT.GET_TRIPS_DATA, secondaryData);
+  const getCalenderData = (calenderData) => api.post(ENDPOINT.GET_TRIPS_DATA, calenderData);
+  const addContact = (contact) => api.post(ENDPOINT.ADD_CONTACT, contact);
+  const getContacts = (id) => api.get(ENDPOINT.GET_CONTACTS + "/" + id);
+  const deletContacts = (id) => api.get(ENDPOINT.DELETE_CONTACTS + "/" + id);
+
+
+  const homeScreenText = (id) => api.get(ENDPOINT.HOME_SCREEN_TEXT);
 
 
 
+  const sendMessage = (receiver_id, sender_id, message) => api.post(ENDPOINT.SENDMESSAGE, { sender_id, receiver_id, message });
 
-
-
-  const sendMessage = (receiver_id, sender_id, message) => api.post(ENDPOINT.SENDMESSAGE,{sender_id, receiver_id, message});
-  
 
 
 
@@ -132,7 +143,8 @@ const core = (baseURL = AppConfig.API_URL) => {
     getCalenderData,
     addContact,
     getContacts,
-    deletContacts
+    deletContacts,
+    homeScreenText
 
     // User/Profile
   };

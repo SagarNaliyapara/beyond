@@ -12,11 +12,20 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import SafeAreaView from 'react-native-safe-area-view';
 import { View, Text } from 'react-native';
 import { getNotificationPermission } from './src/utils/NotificationPermission';
+import Reactotron from "reactotron-react-native"
+
+Reactotron
+  .configure() // controls connection & communication settings
+  .useReactNative() // add all built-in react native plugins
+  .connect() // let's connect!
+
+
 const store = configureStore()
 delayConfiguration(store, config.pusherAppId, config.pusherOptions)
 
 
 const App = () => {
+  Reactotron.log("HELLO WORLD")
 
   const [expoPushToken, setExpoPushToken] = useState('');
 
@@ -30,16 +39,16 @@ const App = () => {
   }, []);
 
   async function registerForPushNotificationsAsync() {
-    const {status: existingStatus} = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+    const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
     let finalStatus = existingStatus;
     if (existingStatus !== 'granted') {
-      const {status} = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
       finalStatus = status;
     }
     if (finalStatus !== 'granted') {
       return null;
     }
-      return  await Notifications.getExpoPushTokenAsync();
+    return await Notifications.getExpoPushTokenAsync();
   }
 
   // return (

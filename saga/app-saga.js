@@ -15,6 +15,7 @@ import { REHYDRATE } from "redux-persist/constants";
 import Type from "../actions/type";
 import Actions from "../actions/creator";
 import { translate } from "../config/lang";
+import reactotron from "reactotron-react-native";
 
 // Listen to various general app actions
 const getToken = (state) => state.auth.token;
@@ -125,7 +126,7 @@ export default (api) => {
       if (
         response &&
         response.ok &&
-        response.data 
+        response.data
       ) {
         yield put(Actions.getCitiesSuccess(response.data.cities));
       } else {
@@ -403,10 +404,10 @@ export default (api) => {
   }
   // alert(JSON.stringify(response.data.social_services));
 
- 
- 
- 
- 
+
+
+
+
   function* getMettingsData(action) {
     // alert(JSON.stringify(action.tripData))
     try {
@@ -457,7 +458,7 @@ export default (api) => {
         yield put(Actions.getNewContact(action.contact.user_id));
         alert(response.data.message)
         // alert(action.contact.user_id)
-      
+
       }
     } catch (err) {
       alert(err)
@@ -468,7 +469,7 @@ export default (api) => {
 
   function* getContacts(action) {
     try {
-      const response = yield call(api.getContacts,action.user_id);
+      const response = yield call(api.getContacts, action.user_id);
       if (response && response.ok && response.data) {
         yield put(Actions.getContactsSuccess(response.data));
       }
@@ -479,13 +480,11 @@ export default (api) => {
   }
 
   function* deletContacts(action) {
-    
-  
     try {
-      const response = yield call(api.deletContacts,action.id);
+      const response = yield call(api.deletContacts, action.id);
 
       if (response && response.ok && response.data) {
-        yield put(Actions.getNewContact(action.user_id));
+        yield put(Actions.getHomeScreenTextSuccess);
         alert(JSON.stringify(response.data.message))
       }
     } catch (err) {
@@ -493,8 +492,22 @@ export default (api) => {
       // yield put(Actions.getMessagesFailure("err"))
     }
   }
-  
-  
+
+  function* getHomeScreenTextRequest(action) {
+    try {
+      reactotron.log("in call")
+      const response = yield call(api.homeScreenText);
+
+      if (response && response.ok && response.data) {
+        reactotron.log("response.data", response.data)
+        yield put(Actions.getHomeScreenTextRequestSuccess(response.data));
+        alert(JSON.stringify(response.data.message))
+      }
+    } catch (err) {
+      alert(err)
+      // yield put(Actions.getMessagesFailure("err"))
+    }
+  }
 
 
 
@@ -568,9 +581,17 @@ export default (api) => {
       getSecondaryServiceData
     );
     yield fork(takeEvery, Type.GET_CALENDER_ATTEMPT, getCalenderData);
-    yield fork(takeEvery, Type.ADD_NEW_CONTACT,addNewContact);
+    yield fork(takeEvery, Type.ADD_NEW_CONTACT, addNewContact);
     yield fork(takeEvery, Type.GET_NEW_CONTACTS, getContacts);
     yield fork(takeEvery, Type.DELETE_CONTACTS, deletContacts);
+
+
+    yield fork(
+      takeEvery,
+      Type.GET_HOME_SCREEN_TEXT_REQUEST,
+      getHomeScreenTextRequest
+    );
+
 
     // // wait for the user to be logged out if needed
     yield take(Type.APP_RESET_ATTEMPT);

@@ -45,7 +45,7 @@ const setLanguage = (locale) => ({ type: Type.SET_LANGUAGE, locale });
 
 const addNewContact = (contact) => ({ type: Type.ADD_NEW_CONTACT, contact });
 const getNewContact = (user_id) => ({ type: Type.GET_NEW_CONTACTS, user_id });
-const deleteContact = (id,user_id) => ({ type: Type.DELETE_CONTACTS,id,user_id });
+const deleteContact = (id, user_id) => ({ type: Type.DELETE_CONTACTS, id, user_id });
 
 const loginAttempt = (user) => ({ type: Type.LOGIN_ATTEMPT, user });
 const loginSuccess = (
@@ -102,7 +102,7 @@ const getCitiesAttempt = () => ({ type: Type.GET_CITIES_ATTEMPT });
 const getCitiesSuccess = (cities) => ({
   type: Type.GET_CITIES_SUCCESS,
   cities: cities,
-  
+
 
 });
 const getCitiesFailure = (err) => ({ type: Type.GET_CITIES_FAILURE, err });
@@ -234,7 +234,7 @@ const getCalenderSuccess = (calendersData) => ({
 });
 const getCalenderFailure = (err) => ({ type: Type.GET_CALENDER_FAILURE, err });
 
-const showPaymentWebView = (value) =>({ type: Type.SHOW_PAYMENT_VIEW, value });
+const showPaymentWebView = (value) => ({ type: Type.SHOW_PAYMENT_VIEW, value });
 
 
 
@@ -296,6 +296,20 @@ const sendPhoneVerificationNumberAttempt = (phoneNumber, code) => ({
 const sendPhoneVerificationNumberSuccess = () => ({
   type: Type.SEND_PHONE_VERIFICATION_NUMBER_SUCCESS,
 });
+
+const getHomeScreenTextRequest = () => ({
+  type: Type.GET_HOME_SCREEN_TEXT_REQUEST,
+})
+
+const getHomeScreenTextRequestSuccess = (action) => ({
+  type: Type.GET_HOME_SCREEN_TEXT_REQUEST_SUCCESS,
+  action: action
+})
+const getHomeScreenRequestTextFailure = (error) => ({
+  type: Type.GET_HOME_SCREEN_TEXT_REQUEST_FAILURE,
+  error: error
+})
+
 const sendPhoneVerificationNumberFailure = (err) => ({
   type: Type.SEND_PHONE_VERIFICATION_NUMBER_FAILURE,
   errorCode: err,
@@ -308,6 +322,11 @@ export default {
   appResetAttempt,
   appResetSuccess,
   setLoadedVideo,
+
+
+  getHomeScreenTextRequest,
+  getHomeScreenTextRequestSuccess,
+  getHomeScreenRequestTextFailure,
 
   setNotification,
   resetNotification,

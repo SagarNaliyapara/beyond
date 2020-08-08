@@ -52,6 +52,7 @@
     "react-native-webview": "8.1.1",
     "react-native-whc-toast": "^1.0.0",
     "react-redux": "^7.2.0",
+    "reactotron-react-native": "^5.0.0",
     "redux": "^4.0.5",
     "redux-action-buffer": "^1.2.0",
     "redux-persist": "^4.10.2",

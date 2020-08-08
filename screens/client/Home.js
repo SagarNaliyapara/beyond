@@ -101,6 +101,8 @@ class Home extends Component {
   }
 
   async componentWillMount() {
+    this.props.dispatch(Actions.getHomeScreenTextRequest());
+
     const { navigation, name, locale, id } = this.props;
     // this.tokenApiCall("ExponentPushToken[_3VfkhP3mlr6_06nqSZemY]")
     registerForPushNotificationsAsync().then(token => {
