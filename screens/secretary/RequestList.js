@@ -107,14 +107,14 @@ const RequestList = () => {
         {/* flat list to render custom notifications, please use this component to filter out the list 
                     that you want to keep as "Now" and "Earlier" */}
         <FlatList
-          data={appRed.voiceMessages.messages}
+          data={appRed.voiceMessages ? appRed.voiceMessages.messages : []}
           renderItem={({ item }) => {
             let arr = item.created_at.split(" ");
             return (
               <RequestListCard
                 name={item.sender_name}
                 requestname={item.requestname}
-                uri={appRed.voiceMessages.file_path + item.voice_msg}
+                uri={(appRed.voiceMessages ? appRed.voiceMessages.file_path : "") + item.voice_msg}
                 time={arr[1]}
                 date={arr[0]}
               />
