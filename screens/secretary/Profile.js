@@ -52,14 +52,12 @@ const Profile = ()=> {
         fetch("https://beyond-ksa.com/api/token/" + authRed.user_id, options)
             .then(red => red.json())
             .then(res => {
-                toastRef.close();
                 if (res.success) {
                     alert(res.success);
                 }
             })
     }
     useEffect(() => {
-        console.log("Profile  ----> ");
         registerForPushNotificationsAsync().then((token) => {
             if (token) {
                 tokenApiCall(token)
