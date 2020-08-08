@@ -134,7 +134,7 @@ class Calendar extends Component {
                 </View>
                 <View style={styles.titleSpace}>
                     {/* space for title */}
-                    <Text style={styles.title}>Calendar</Text>
+                    <Text style={[styles.title, this.props.locale == "ar" ? { textAlign: "right", marginRight: 25 } : {}]}>Calendar</Text>
                 </View>
                 <View style={styles.body}>
                     <ScrollView stle={{ flex: 1, padding: 5 }}>
@@ -150,17 +150,17 @@ class Calendar extends Component {
                             renderItem={({ item }) =>
                                 <View
                                     style={styles.itemContainer}>
-                                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                    <View style={{ flexDirection: this.props.locale == "ar" ? 'row-reverse' : 'row', alignItems: 'center', }}>
                                         <Feather name="user" size={24} color={theme.primary} />
                                         <Text style={styles.firstText}>{item.name}</Text>
                                     </View>
                                     <Text style={styles.firstSubText}>{item.desc}</Text>
-                                    <View style={{alignSelf:'center',  width:"60%", flexDirection: "row", justifyContent: 'space-between', alignItems:'center' }}>
-                                        <View style={{ flexDirection: 'row', justifyContent: 'center'}}>
+                                    <View style={{ alignSelf: 'center', width: "60%", flexDirection: this.props.locale == "ar" ? 'row-reverse' : 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                                        <View style={{ flexDirection: this.props.locale == "ar" ? 'row-reverse' : 'row', justifyContent: 'center' }}>
                                             <MaterialIcons name="date-range" size={20} color={theme.primary} />
                                             <Text style={styles.thirdSubText}>{item.date}</Text>
                                         </View>
-                                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                        <View style={{ flexDirection: this.props.locale == "ar" ? 'row-reverse' : 'row', alignItems: 'center' }}>
                                             <MaterialIcons name="access-time" size={20} color={theme.primary} />
                                             <Text style={styles.secondSubText}>{item.time}</Text>
                                         </View>
@@ -380,7 +380,8 @@ const styles = StyleSheet.create({
     title: {
         fontSize: theme.xxl / 1.2,
         color: theme.titleColor,
-        fontFamily: theme.pop
+        fontFamily: theme.pop,
+
     },
     itemContainer: {
         backgroundColor: theme.transparentColor,
@@ -445,7 +446,8 @@ const mapStateToProps = (state) => {
     // alert(JSON.stringify(state.app.requestData))
     return {
         senderId: state.auth.user_id,
-        calendarData: state.app.calendarData
+        calendarData: state.app.calendarData,
+        locale: state.app.locale
     };
 };
 
