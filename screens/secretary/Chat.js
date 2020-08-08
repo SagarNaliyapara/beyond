@@ -129,6 +129,7 @@ const Profile = (props) => {
   useEffect(() => {
     dispatch(Actions.getMessagesAttempt(authRed.user_id));
     Keyboard.addListener("keyboardDidShow", (e) => {
+      setShowEmoji(false);
      setKeyBoardheight(e.endCoordinates.height - height * 0.07)
      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     });
@@ -260,7 +261,12 @@ const Profile = (props) => {
                   }}
                 />
                 <TouchableOpacity
-                    onPress={() => setShowEmoji(!showEmoji)}
+                    onPress={() => {
+                      if(!showEmoji){
+                        Keyboard.dismiss()
+                      }
+                      setShowEmoji(!showEmoji)
+                    }}
                     style={{
                       width: 30,
                       height: 30,
