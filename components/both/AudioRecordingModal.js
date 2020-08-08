@@ -20,7 +20,7 @@ const PAUSED_PLAY = 3;
 
 export default renderModal = (props) => {
   const recordingSettings = JSON.parse(
-    JSON.stringify(Audio.RECORDING_OPTIONS_PRESET_LOW_QUALITY)
+    JSON.stringify(Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY)
   );
   const [state, setState] = useState(0);
   const [sound, setSound] = useState(null);
