@@ -26,7 +26,7 @@ const RequestListCard = (props) => {
   return (
     <TouchableOpacity
       onPress={() => navigation.navigate("RequestDetails")}
-      style={styles.container}
+      style={[styles.container,]}
     >
       <View style={styles.leftEntry}>
         <Text style={styles.title}>{props.name}</Text>
@@ -36,21 +36,22 @@ const RequestListCard = (props) => {
             // alert(soundObject)
             try {
               await soundObject.replayAsync();
-            } catch (err) {}
+            } catch (err) { }
           }}
-          style={{ height: 25, width: 25, marginLeft: 10}}
+          style={{ height: 25, width: 25, marginLeft: 10 }}
         >
           <AntDesign name="sound" size={25} color={theme.primary} />
         </TouchableOpacity>
       </View>
 
-      <View style={styles.rightEntry}>
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Ionicons name="md-time" size={18} color={theme.primary} />
-          <Text style={styles.dateTimeText}>{props.time}</Text>
+      <View style={[styles.rightEntry,]}>
+        <View style={{ flexDirection: "row", alignItems: "center", }}>
+          <Ionicons name="md-time" size={16} color={theme.primary} />
+          <Text style={[styles.dateTimeText, { marginTop: 5 }]}>{props.time}</Text>
         </View>
+        <View style={{ height: theme.large / 1.2, }} />
         <View
-          style={{ flexDirection: "row", paddingTop: 2, alignItems: "center" }}
+          style={{ flexDirection: "row", paddingTop: 2, alignItems: "center", }}
         >
           <MaterialIcons name="date-range" size={16} color={theme.primary} />
           <Text style={styles.dateTimeText}>{props.date}</Text>
@@ -101,5 +102,6 @@ const styles = StyleSheet.create({
     color: theme.secondary,
     fontSize: theme.medium,
     paddingLeft: 5,
+    marginTop: 7
   },
 });
