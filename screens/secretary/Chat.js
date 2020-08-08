@@ -13,6 +13,7 @@ import {
   Dimensions,
   LayoutAnimation,
 } from "react-native";
+import EmojiSelector from 'react-native-emoji-selector'
 const {width, height} = Dimensions.get("screen")
 import theme from "../../Theme";
 import {
@@ -85,7 +86,6 @@ const messageBox = (message, user_id) => {
       <View
         style={{
           width: "100%",
-          backgroundColor: "green",
           borderRadius: 10,
           padding: 10,
           borderBottomLeftRadius: received ? 0 : 10,
@@ -122,7 +122,8 @@ const Profile = (props) => {
   const appRed = useSelector((state) => state.app);
   const [text, setText] = useState("");
   const [focus, setFocus] = useState(false);
-  const [keyBoardheight, setKeyBoardheight] = useState(0)
+  const [keyBoardheight, setKeyBoardheight] = useState(0);
+  const [showEmoji, setShowEmoji] = useState(false);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -175,7 +176,7 @@ const Profile = (props) => {
             alignSelf: "center",
           }}
         />
-        {authRed.secretary_id != "" ? (
+        {authRed.secretary_id !== "" ? (
           <View style={{ flex: 1 }}>
             <FlatList
               inverted
@@ -184,7 +185,7 @@ const Profile = (props) => {
               renderItem={({ item }) => {
                 return messageBox(item, authRed.user_id);
               }}
-            ></FlatList>
+            />
             {/* flat list */}
             <View
               style={{
@@ -202,6 +203,7 @@ const Profile = (props) => {
             >
               <TouchableOpacity
                 onPress={() => {
+                  setShowEmoji(false);
                   if (text == "") {
                     return;
                   }
@@ -237,9 +239,14 @@ const Profile = (props) => {
                   justifyContent: "space-between",
                   alignItems: "center",
                   paddingHorizontal: 10,
+                  width:'100%',
                 }}
               >
                 <TextInput
+                    style={{
+                      width:'90%',
+                      paddingVertical:5,
+                    }}
                   onBlur={() => {
                     setFocus(false);
                   }}
@@ -252,24 +259,34 @@ const Profile = (props) => {
                     setText(text);
                   }}
                 />
-                <View
-                  style={{
-                    width: 30,
-                    height: 30,
-                    borderRadius: 25,
-                    backgroundColor: "transparent",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
+                <TouchableOpacity
+                    onPress={() => setShowEmoji(!showEmoji)}
+                    style={{
+                      width: 30,
+                      height: 30,
+                      borderRadius: 25,
+                      backgroundColor: "transparent",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
                 >
                   <SimpleLineIcons
-                    name="emotsmile"
-                    size={20}
-                    color={theme.primary}
+                      name="emotsmile"
+                      size={20}
+                      color={theme.primary}
                   />
-                </View>
+                </TouchableOpacity>
               </View>
               <TouchableOpacity
+                  onPress={() => {
+                    dispatch(
+                        Actions.sendMessagesAttempt(
+                            authRed.secretary_id,
+                            authRed.user_id,
+                            '👍'
+                        )
+                    );
+                  }}
                 style={{
                   width: 30,
                   height: 30,
@@ -294,6 +311,9 @@ const Profile = (props) => {
               : NoSecretatyMessage}
           </Text>
         )}
+        {showEmoji && <EmojiSelector onEmojiSelected={(emoji) => {
+          setText(text + emoji);
+        }}/>}
       </View>
     </View>
   );

@@ -21,6 +21,7 @@
     "expo-contacts": "^8.1.0",
     "expo-file-system": "~8.1.0",
     "expo-font": "~8.1.0",
+    "expo-intent-launcher": "~8.1.0",
     "expo-permissions": "~8.1.0",
     "lodash": "^4.17.19",
     "moment": "^2.24.0",
@@ -33,6 +34,7 @@
     "react-native-calendar-picker": "^6.0.6",
     "react-native-check-box": "^2.1.7",
     "react-native-country-picker-modal": "^1.11.0",
+    "react-native-emoji-selector": "^0.1.9",
     "react-native-gesture-handler": "~1.6.0",
     "react-native-material-dropdown": "^0.11.1",
     "react-native-modal-datetime-picker": "^7.6.1",
@@ -47,6 +49,7 @@
     "react-native-swiper": "^1.6.0",
     "react-native-swiper-flatlist": "^2.0.4",
     "react-native-web": "~0.11.7",
+    "react-native-webview": "8.1.1",
     "react-native-whc-toast": "^1.0.0",
     "react-redux": "^7.2.0",
     "redux": "^4.0.5",
@@ -54,9 +57,7 @@
     "redux-persist": "^4.10.2",
     "redux-saga": "^0.15.3",
     "reduxsauce": "^1.1.2",
-    "seamless-immutable": "^7.1.4",
-    "react-native-webview": "8.1.1",
-    "expo-intent-launcher": "~8.1.0"
+    "seamless-immutable": "^7.1.4"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",
