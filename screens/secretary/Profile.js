@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { 
+import React, {Component, useEffect} from "react";
+import {
     View,
     Text,
     StyleSheet,
@@ -16,10 +16,56 @@ import HeaderLongSecretary from '../../components/secretary/HeaderLongSecretary'
 import HeaderSmall from '../../components/both/HeaderSmall'
 import {Feather} from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native';
+import * as Permissions from "expo-permissions";
+import {Notifications} from "expo";
+import {useSelector} from "react-redux";
 
 
 const Profile = ()=> {
     const navigation = useNavigation();
+    const authRed = useSelector((state) => state.auth);
+    const registerForPushNotificationsAsync = async () => {
+        const {status: existingStatus} = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+        let finalStatus = existingStatus;
+        if (existingStatus !== 'granted') {
+            const {status} = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+            finalStatus = status;
+        }
+        if (finalStatus !== 'granted') {
+            return null;
+        }
+        return await Notifications.getExpoPushTokenAsync();
+    }
+
+    const tokenApiCall = (token) => {
+        const options = {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + authRed.token,
+                body: {
+                    token: token
+                }
+            },
+        };
+        fetch("https://beyond-ksa.com/api/token/" + authRed.user_id, options)
+            .then(red => red.json())
+            .then(res => {
+                toastRef.close();
+                if (res.success) {
+                    alert(res.success);
+                }
+            })
+    }
+    useEffect(() => {
+        console.log("Profile  ----> ");
+        registerForPushNotificationsAsync().then((token) => {
+            if (token) {
+                tokenApiCall(token)
+            }
+        });
+    }, []);
     const sampleimg = 'https://randomuser.me/api/portraits/men/29.jpg'
         return (
             <ImageBackground source={require('../../assets/bg.png')} style={styles.container}>
@@ -28,7 +74,7 @@ const Profile = ()=> {
                     <HeaderLongSecretary leftIcon="menu" rightIcon="settings"/>
                 </View>
                 <View style={styles.body}>
-                
+
                 <ScrollView>
 
                     <View>
@@ -38,7 +84,7 @@ const Profile = ()=> {
                          <Text style={styles.name}>Secretary Name</Text>
                          </View>
                         </View>
-                       
+
                     </View>
 
 
@@ -54,7 +100,7 @@ const Profile = ()=> {
                     <Text style={styles.placeholder}>+95849859458</Text>
                     </View>
                     </View>
-                    
+
                     {/* MENU ITEM*/}
                     <View style={{flexWrap:'wrap',flexDirection:'row',justifyContent:'space-between'}}>
                 <TouchableOpacity onPress={()=>navigation.navigate('Clients')} style={styles.menuContainer}>
