@@ -138,9 +138,9 @@ const signout = state => state.merge({ ...INITIAL_STATE })
 const getHomeScreenTextRequest = state => state.merge({ loaded: true, })
 
 const getHomeScreenTextRequestSuccess = (state, action) => {
-	// reactotron.log("action444", action)
+	reactotron.log("action444", action)
 	return state.merge({
-		homeScreenMessage: action.value
+		homeScreenMessage: action.action.value
 	})
 }
 
