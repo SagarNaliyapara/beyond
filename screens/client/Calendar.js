@@ -169,7 +169,7 @@ class Calendar extends Component {
                                         <TouchableOpacity onPress={() => {
                                             this.setState({ visible: true, itemData: item });
                                         }} style={styles.mainButton}>
-                                            <Text style={styles.btnText}>status_here</Text>
+                                            <Text style={styles.btnText}>{item.status||"status_here"}</Text>
                                         </TouchableOpacity>
                                     </View>
                                 </View>

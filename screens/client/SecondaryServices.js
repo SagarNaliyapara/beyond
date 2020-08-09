@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from "react";
-import { 
+import {
     View,
     Text,
     StyleSheet,
@@ -36,7 +36,7 @@ const DATA = [
         time:'5:00 PM',
         date:'30 Mar 2020',
         status:'{status_here}'
-  
+
       },
       {
         id: '3',
@@ -44,7 +44,7 @@ const DATA = [
         time:'5:00 PM',
         date:'30 Mar 2020',
         status:'{status_here}'
-  
+
       },
       {
         id: '4',
@@ -52,7 +52,7 @@ const DATA = [
         time:'5:00 PM',
         date:'30 Mar 2020',
         status:'{status_here}'
-  
+
       },
       {
         id: '5',
@@ -60,7 +60,7 @@ const DATA = [
         time:'5:00 PM',
         date:'30 Mar 2020',
         status:'{status_here}'
-  
+
       },
       {
         id: '6',
@@ -68,11 +68,11 @@ const DATA = [
         time:'5:00 PM',
         date:'30 Mar 2020',
         status:'{status_here}'
-  
+
       },
-      
+
   ];
-  
+
 
 const SecondaryServices = ()=> {
     const [visible,setVisible] = useState(false);
@@ -87,18 +87,18 @@ const SecondaryServices = ()=> {
         user_id:authRed.user_id,
         request_type:"social_services"
     }
-   
-   
+
+
     useEffect(() => {
-      
+
        if(isCalled == "false"){
        dispatch(Actions.getSecondaryServiceAttempt(socialServiceData))
        }
        setIsCalled("true")
-        
+
       })
     //   alert(JSON.stringify(appRed.requestData))
-   
+
 
 
 
@@ -146,7 +146,7 @@ const SecondaryServices = ()=> {
                      <Feather name="globe" size={24} color={theme.primary} />
                      <Text style={styles.firstText}>{item.name}</Text>
                      </View>
-                     
+
                     <View style={{flexDirection:'row'}}>
                          <View style={{width:'50%',paddingLeft:10,paddingTop:15}}>
                              <View style={{flexDirection:'row'}}>
@@ -166,13 +166,13 @@ const SecondaryServices = ()=> {
 
                      <View style={{flexDirection:'row'}}>
                      <TouchableOpacity onPress={() => {setVisible(true),setAppRedData(item)}} style={styles.mainButton}>
-                     <Text style={styles.btnText}>status_here</Text>
+                     <Text style={styles.btnText}>{item.status||"status_here"}</Text>
                      </TouchableOpacity>
                      <TouchableOpacity onPress={() => navigation.navigate("ChatTab")}
                      style={styles.secondButton}>
                       <Feather name="message-circle" size={20} color={'#fff'} />
                      </TouchableOpacity>
-                     </View>    
+                     </View>
                 </View>
 
 
@@ -180,8 +180,8 @@ const SecondaryServices = ()=> {
                 }
                 keyExtractor={item => item.id} />
 
-                  
-                            
+
+
                 </View>
 
 
@@ -190,7 +190,7 @@ const SecondaryServices = ()=> {
 
 
                      {/* POPUP CODE STARTS HERE, all with inline styling,so its easy to copy and paste */}
-{appRedData ? 
+{appRedData ?
                      <Dialog
                         visible={visible}
                         onTouchOutside={() => {
@@ -208,13 +208,13 @@ const SecondaryServices = ()=> {
                          {/* Full container*/}
 
                          <View style={{marginTop:hp(1.5),marginLeft:wp(7),width:'80%',height:hp(7),borderBottomColor:'#e5e5e5',borderBottomWidth:1}}>
-                                                
+
                              <View style={{flexDirection:'row'}}>
                              <Feather name="globe" size={15} color={theme.primary} />
                              <Text style={{paddingLeft:5,fontFamily:theme.pop,color:theme.primary,fontSize:theme.small}}>Service Name</Text>
                              </View>
                     <Text style={{paddingLeft:5,fontFamily:theme.pop,color:theme.secondary,fontSize:theme.medium,paddingTop: textpadding}}>{appRedData.name}</Text>
-                         
+
                          </View>
 
                          {/* Full container*/}
@@ -224,22 +224,22 @@ const SecondaryServices = ()=> {
 
                        <View style={{flexDirection:'row',marginTop:hp(1.5)}}>
                          <View style={{marginLeft:wp(7),width:'40%',height:hp(7),borderBottomColor:'#e5e5e5',borderBottomWidth:1}}>
-                             
+
                              <View style={{flexDirection:'row'}}>
                              <Feather name="clock" size={15} color={theme.primary} />
                              <Text style={{paddingLeft:5,fontFamily:theme.pop,color:theme.primary,fontSize:theme.small}}>Time</Text>
                              </View>
                     <Text style={{paddingLeft:5,fontFamily:theme.pop,color:theme.secondary,fontSize:theme.medium,paddingTop: textpadding}}>{appRedData.time}</Text>
-                        
+
                          </View>
                          <View style={{marginLeft:wp(1),width:'40%',height:hp(7),borderBottomColor:'#e5e5e5',borderBottomWidth:1}}>
-                             
+
                              <View style={{flexDirection:'row'}}>
                              <MaterialIcons name="date-range" size={15} color={theme.primary} />
                              <Text style={{paddingLeft:5,fontFamily:theme.pop,color:theme.primary,fontSize:theme.small}}>Date</Text>
                              </View>
                     <Text style={{paddingLeft:5,fontFamily:theme.pop,color:theme.secondary,fontSize:theme.medium,paddingTop: textpadding}}>{appRedData.date}</Text>
-                        
+
                          </View>
                         </View>
                         {/* half container*/}
@@ -251,13 +251,13 @@ const SecondaryServices = ()=> {
                             {/* Full container*/}
 
                             <View style={{paddingRight:5,marginTop:hp(1.5),marginLeft:wp(7),width:'80%',height:hp(12),borderBottomColor:'#e5e5e5',borderBottomWidth:1}}>
-                             
+
                              <View style={{flexDirection:'row'}}>
                              <Feather name="file" size={15} color={theme.primary} />
                              <Text style={{paddingLeft:5,fontFamily:theme.pop,color:theme.primary,fontSize:theme.small}}>Information</Text>
                              </View>
                     <Text style={{paddingLeft:5,fontFamily:theme.pop,color:theme.secondary,fontSize:theme.small / 1,paddingTop: textpadding}}>{appRedData.description}</Text>
-                         
+
                             </View>
 
                             {/* Full container*/}

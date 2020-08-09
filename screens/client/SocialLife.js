@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from "react";
-import { 
+import {
     View,
     Text,
     StyleSheet,
@@ -34,7 +34,7 @@ const DATA = [
         time:'5:00 PM',
         date:'30 Mar 2020',
         status:'{status_here}'
-  
+
       },
       {
         id: '3',
@@ -42,7 +42,7 @@ const DATA = [
         time:'5:00 PM',
         date:'30 Mar 2020',
         status:'{status_here}'
-  
+
       },
       {
         id: '4',
@@ -50,7 +50,7 @@ const DATA = [
         time:'5:00 PM',
         date:'30 Mar 2020',
         status:'{status_here}'
-  
+
       },
       {
         id: '5',
@@ -58,7 +58,7 @@ const DATA = [
         time:'5:00 PM',
         date:'30 Mar 2020',
         status:'{status_here}'
-  
+
       },
       {
         id: '6',
@@ -66,11 +66,11 @@ const DATA = [
         time:'5:00 PM',
         date:'30 Mar 2020',
         status:'{status_here}'
-  
+
       },
-      
+
   ];
-  
+
 
 const SocialLife = ()=> {
     const [visible,setVisible] = useState(false);
@@ -80,21 +80,21 @@ const SocialLife = ()=> {
     const authRed =  useSelector((state) => state.auth);
     const appRed =  useSelector((state) => state.app);
     const dispatch = useDispatch();
-    
-    
+
+
     const socialEventData = {
         user_id:authRed.user_id,
         request_type:"social_events"
     }
-   
-   
+
+
     useEffect(() => {
-      
+
        if(isCalled == "false"){
        dispatch(Actions.getSocialEventsAttempt(socialEventData))
        }
        setIsCalled("true")
-        
+
       })
     //   alert(JSON.stringify(appRed.requestData))
 
@@ -119,7 +119,7 @@ const SocialLife = ()=> {
 
 
                 <View style={styles.body}>
-                
+
 
                     {/*  button starts here  */}
                     {authRed.userType == "secretary" ?
@@ -158,18 +158,18 @@ const SocialLife = ()=> {
                              <Text style={styles.firstSubText}>{item.date}</Text>
                          </View>
                      </View>
-                        
-                    
+
+
 
                      <View style={{flexDirection:'row'}}>
                      <TouchableOpacity onPress={() => {setVisible(true),setAppRedData(item)}} style={styles.mainButton}>
-                        <Text style={styles.btnText}>status_here</Text>
+                        <Text style={styles.btnText}>{item.status||"status_here"}</Text>
                      </TouchableOpacity>
                      <TouchableOpacity onPress={() => navigation.navigate("ChatTab")}
                      style={styles.secondButton}>
                       <Feather name="message-circle" size={20} color={'#fff'} />
                      </TouchableOpacity>
-                     </View>    
+                     </View>
                 </View>
 
 
@@ -177,8 +177,8 @@ const SocialLife = ()=> {
                 }
                 keyExtractor={item => item.id} />
 
-                  
-                            
+
+
                 </View>
 
 
@@ -208,13 +208,13 @@ const SocialLife = ()=> {
                         {/* Full container*/}
 
                          <View style={{marginLeft:wp(7),width:'80%',height:hp(7),borderBottomColor:'#e5e5e5',borderBottomWidth:1}}>
-                             
+
                              <View style={{flexDirection:'row'}}>
                              <MaterialIcons name="cake" size={15} color={theme.primary} />
                              <Text style={{paddingLeft:5,fontFamily:theme.pop,color:theme.primary,fontSize:theme.small}}>Title of the event</Text>
                              </View>
                     <Text style={{paddingLeft:5,fontFamily:theme.pop,color:theme.secondary,fontSize:theme.medium, paddingTop: textpadding }}>{appRedData.name}</Text>
-                         
+
                          </View>
 
                          {/* Full container*/}
@@ -225,22 +225,22 @@ const SocialLife = ()=> {
 
                        <View style={{flexDirection:'row',marginTop:hp(1.5)}}>
                          <View style={{marginLeft:wp(7),width:'40%',height:hp(7),borderBottomColor:'#e5e5e5',borderBottomWidth:1}}>
-                             
+
                              <View style={{flexDirection:'row'}}>
                              <Feather name="clock" size={15} color={theme.primary} />
                              <Text style={{paddingLeft:5,fontFamily:theme.pop,color:theme.primary,fontSize:theme.small}}>Time</Text>
                              </View>
                     <Text style={{paddingLeft:5,fontFamily:theme.pop,color:theme.secondary,fontSize:theme.medium, paddingTop: textpadding }}>{appRedData.time}</Text>
-                        
+
                          </View>
                          <View style={{marginLeft:wp(1),width:'40%',height:hp(7),borderBottomColor:'#e5e5e5',borderBottomWidth:1}}>
-                             
+
                              <View style={{flexDirection:'row'}}>
                              <MaterialIcons name="date-range" size={15} color={theme.primary} />
                              <Text style={{paddingLeft:5,fontFamily:theme.pop,color:theme.primary,fontSize:theme.small}}>Date</Text>
                              </View>
                     <Text style={{paddingLeft:5,fontFamily:theme.pop,color:theme.secondary,fontSize:theme.medium, paddingTop: textpadding }}>{appRedData.date}</Text>
-                        
+
                          </View>
                         </View>
                         {/* half container*/}
@@ -251,22 +251,22 @@ const SocialLife = ()=> {
 
                        <View style={{flexDirection:'row',marginTop:hp(1.5)}}>
                          <View style={{marginLeft:wp(7),width:'40%',height:hp(7),borderBottomColor:'#e5e5e5',borderBottomWidth:1}}>
-                             
+
                              <View style={{flexDirection:'row'}}>
                              <SimpleLineIcons name="location-pin" size={15} color={theme.primary} />
                              <Text style={{paddingLeft:5,fontFamily:theme.pop,color:theme.primary,fontSize:theme.small}}>Location</Text>
                              </View>
                     <Text style={{paddingLeft:5,fontFamily:theme.pop,color:theme.secondary,fontSize:theme.medium, paddingTop: textpadding }}>{appRedData.location}</Text>
-                        
+
                          </View>
                          <View style={{marginLeft:wp(1),width:'40%',height:hp(7),borderBottomColor:'#e5e5e5',borderBottomWidth:1}}>
-                             
+
                              <View style={{flexDirection:'row'}}>
                              <Feather name="globe" size={15} color={theme.primary} />
                              <Text style={{paddingLeft:5,fontFamily:theme.pop,color:theme.primary,fontSize:theme.small}}>City</Text>
                              </View>
                     <Text style={{paddingLeft:5,fontFamily:theme.pop,color:theme.secondary,fontSize:theme.medium, paddingTop: textpadding }}>{appRedData.city}</Text>
-                        
+
                          </View>
                          </View>
                         {/* half container*/}
@@ -277,13 +277,13 @@ const SocialLife = ()=> {
                             {/* Full container*/}
 
                             <View style={{paddingRight:5,marginTop:hp(1.5),marginLeft:wp(7),width:'80%',height:hp(12),borderBottomColor:'#e5e5e5',borderBottomWidth:1}}>
-                             
+
                              <View style={{flexDirection:'row'}}>
                              <Feather name="file" size={15} color={theme.primary} />
                              <Text style={{paddingLeft:5,fontFamily:theme.pop,color:theme.primary,fontSize:theme.small}}>Information</Text>
                              </View>
                     <Text style={{paddingLeft:5,fontFamily:theme.pop,color:theme.secondary,fontSize:theme.small / 1, paddingTop: textpadding }}>{appRedData.note}</Text>
-                         
+
                             </View>
 
                             {/* Full container*/}
