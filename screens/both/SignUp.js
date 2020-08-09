@@ -37,13 +37,12 @@ let cityList = [{
     value: 'City3',
 }];
 
-let titleList = [{
-    value: 'Mr',
-}, {
-    value: 'Miss',
-}, {
-    value: 'Other',
-}];
+
+// let titleList = [];
+
+
+// let titleListAr = [];
+
 
 
 //EDIT THEM!
@@ -73,6 +72,9 @@ const SignUp = (props) => {
     const [note, setNote] = useState('')
     const [getcities, setGetCities] = useState(false)
 
+    const [titleList, onChangeTitleList] = useState([])
+    const [titleListAr, onChangeTitleListAr] = useState([])
+
 
     // const [country, setCountry] = useState({ callingCode: [966] })
     // const [withCallingCode, setWithCallingCode] = useState(true)
@@ -85,6 +87,22 @@ const SignUp = (props) => {
         setCountry(country)
     }
 
+
+    useEffect(() => {
+        fetch("http://beyond-pa.com/api/titles-list")
+            .then(red => red.json())
+            .then(res => {
+                let titleListData = []
+                let titleListArData = []
+                res.titles.map((title) => {
+                    titleListData.push({ value: title.name })
+                    titleListArData.push({ value: title.ar_name })
+                })
+                onChangeTitleList(titleListData)
+                onChangeTitleListAr(titleListArData)
+                reactotron.log("ayu", res)
+            })
+    }, [])
 
     useEffect(() => {
         props.dispatch(Actions.getCitiesAttempt())
@@ -211,9 +229,6 @@ const SignUp = (props) => {
                     </View>
 
                     {/* This is city container, edit your list of cities here */}
-                    {
-                        reactotron.log("authRed.cities", authRed)
-                    }
                     <View style={[styles.nextcontainer, props.locale == "ar" && { justifyContent: 'flex-end' }]}>
                         {props.locale == "ar" && <TransText style={[styles.placeholder, { paddingRight: 10 }]} transkey="CITY" />}
                         <EvilIcons name="location" size={20} color={theme.primary} />
@@ -259,7 +274,7 @@ const SignUp = (props) => {
                             onChangeText={(value) => { setTitle(value) }}
                             containerStyle={{ height: '100%', width: '95%', justifyContent: 'center', paddingBottom: 20 }}
                             placeholder="Title"
-                            data={titleList}
+                            data={props.locale == "en" ? titleList : titleListAr}
                         />
 
 
