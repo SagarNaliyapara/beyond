@@ -46,7 +46,7 @@ export default (api) => {
         yield put(Actions.getCitiesFailure("INVALID_INFORMATION"));
       }
       // alert(JSON.stringify(response))
-    } catch (err) {}
+    } catch (err) { }
   }
   function toUnicode(theString) {
     return theString
@@ -64,10 +64,10 @@ export default (api) => {
 
   function* loginAttempt(action) {
     const { user } = action;
-    
+
     try {
       const response = yield call(api.login, user);
-      
+
       if (response && response.ok && response.data && response.data.success) {
         let secretary_id = "";
         let subscription = null;
@@ -82,11 +82,11 @@ export default (api) => {
             secretary_id = response.data.success.subscription.secretary_id;
           }
         }
-        if(response.data.success.user){
+        if (response.data.success.user) {
           userType = response.data.success.user.user_type
         }
         // alert(user_Id)
-      
+
         yield put(
           Actions.loginSuccess(
             response.data.success.token,
@@ -94,7 +94,8 @@ export default (api) => {
             secretary_id,
             user_Id,
             subscription,
-            userType
+            userType,
+            response.data.success.user
           )
         );
       } else {
@@ -104,7 +105,7 @@ export default (api) => {
       yield put(Actions.loginFailure("SYSTEM_ERROR"));
     }
   }
-  
+
 
   function* loginSuccess(action) {
     const { token } = action;

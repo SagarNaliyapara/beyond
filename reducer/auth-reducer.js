@@ -27,6 +27,7 @@ export const INITIAL_STATE = Immutable({
 	subscription: null,
 	userType: "",
 	arCities: [],
+	user: ""
 })
 
 const getCitiesSuccess = (state, action) => {
@@ -52,7 +53,7 @@ const getCitiesSuccess = (state, action) => {
 
 const resetAuth = state => state.merge({ attempting: false, errorCode: null })
 const loginAttempt = state => state.merge({ attempting: true, errorCode: null })
-const loginSuccess = (state, { token, name, secretary_id, user_id, subscription, userType }) => state.merge({ ...INITIAL_STATE, token, name, user_id, secretary_id, subscription, userType })
+const loginSuccess = (state, { token, name, secretary_id, user_id, subscription, userType, user }) => state.merge({ ...INITIAL_STATE, token, name, user_id, secretary_id, subscription, userType, user })
 const loginFailure = (state, { errorCode }) => state.merge({ ...INITIAL_STATE, errorCode })
 
 

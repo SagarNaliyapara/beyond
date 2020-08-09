@@ -73,12 +73,15 @@ const Profile = () => {
                 <HeaderLongSecretary leftIcon="menu" rightIcon="settings" />
             </View>
             <View style={styles.body}>
+                {
+                    reactotron.log("au", authRed)
+                }
 
                 <ScrollView>
 
                     <View>
                         <View style={{ flexDirection: 'row', alignItems: 'center', paddingBottom: hp(2) }}>
-                            <Image source={{ uri: sampleimg }} style={styles.img} />
+                            <Image source={{ uri: authRed.user.picture ? authRed.user.picture : sampleimg }} style={styles.img} />
                             <View>
                                 <Text style={styles.name}>{authRed.name ? authRed.name : "-"}</Text>
                             </View>
@@ -91,12 +94,12 @@ const Profile = () => {
                     <View style={{ padding: 10, borderTopWidth: 1, borderColor: '#e5e5e5', borderBottomWidth: 1 }}>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             <Feather name="mail" size={15} color={theme.primary} />
-                            <Text style={styles.placeholder}>{authRed.email ? authRed.email : "-"}</Text>
+                            <Text style={styles.placeholder}>{authRed.user.email ? authRed.user.email : "-"}</Text>
                         </View>
                         <View style={{ height: 20 }}></View>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             <Feather name="phone" size={15} color={theme.primary} />
-                            <Text style={styles.placeholder}>{authRed.phoneNumber ? authRed.phoneNumber : "-"}</Text>
+                            <Text style={styles.placeholder}>{authRed.user.phone ? authRed.user.phone : "-"}</Text>
                         </View>
                     </View>
 

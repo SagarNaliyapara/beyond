@@ -54,7 +54,8 @@ const loginSuccess = (
   secretary_id,
   user_id,
   subscription,
-  userType
+  userType,
+  user
 ) => ({
   type: Type.LOGIN_SUCCESS,
   token: token,
@@ -63,6 +64,7 @@ const loginSuccess = (
   user_id,
   subscription,
   userType,
+  user
 });
 const loginFailure = (err) => ({ type: Type.LOGIN_FAILURE, err });
 
