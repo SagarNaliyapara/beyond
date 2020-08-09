@@ -17,6 +17,7 @@ const RequestListCard = (props) => {
   const [soundObject, SetSoundObject] = useState(new Audio.Sound());
 
   useEffect(() => {
+    console.log("uri  ----> ",JSON.stringify(props.uri));
     if (!isSoundLoaded) {
       soundObject.loadAsync({ uri: props.uri });
       setIsSoundLoaded(true);

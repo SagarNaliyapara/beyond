@@ -21,10 +21,10 @@ import TransText from "../../components/both/transtext";
 import Actions from "../../actions/creator"
 const SignIn = (props) => {
     const navigation = useNavigation();
-    const [email, setEmail] = useState('club.akash@gmail.com');
-    const [password, setPassword] = useState("walk@123");
-    // const [email, setEmail] = useState('club.akash3248@gmail.com');
-    // const [password, setPassword] = useState("12345678");
+    // const [email, setEmail] = useState('club.akash@gmail.com');
+    // const [password, setPassword] = useState("walk@123");
+    const [email, setEmail] = useState('club.akash3248@gmail.com');
+    const [password, setPassword] = useState("12345678");
     return (
         <ImageBackground source={require('../../assets/bg.png')} style={styles.container}>
             <View style={styles.headerContainer}>

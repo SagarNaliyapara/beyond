@@ -25,6 +25,7 @@ import Contact_icon from "../../assets/contact.svg"
 import Order_History_icon from "../../assets/history.svg"
 import helpers from "../../components/styles/helpers";
 import reactotron from "reactotron-react-native";
+import AudioPlayer from "../../components/secretary/AudioPlayer";
 
 const RequestDetails = (props) => {
     const navigation = useNavigation();
@@ -77,8 +78,8 @@ const RequestDetails = (props) => {
 
 
 
-                        <View style={{ height: 100, justifyContent: 'center', alignItems: 'center' }}>
-                            <Text>SPACE FOR AUDIO PLAYER AUDIO API</Text>
+                        <View style={{ height: 100 }}>
+                            <AudioPlayer/>
                         </View>
 
 
