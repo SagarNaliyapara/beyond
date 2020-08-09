@@ -39,7 +39,7 @@ import RecordingModal from "../../components/both/AudioRecordingModal";
 import Actions from "../../actions/creator"
 
 import CustomizedBottomTabBar from '../../components/both/CustomizedBottomTabBar';
-import {Notifications} from "expo";
+import { Notifications } from "expo";
 
 const sampleimg = "https://randomuser.me/api/portraits/men/29.jpg";
 
@@ -50,10 +50,10 @@ class Home extends Component {
   };
 
   async registerForPushNotificationsAsync() {
-    const {status: existingStatus} = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+    const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
     let finalStatus = existingStatus;
     if (existingStatus !== 'granted') {
-      const {status} = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
       finalStatus = status;
     }
     if (finalStatus !== 'granted') {
@@ -76,13 +76,15 @@ class Home extends Component {
     };
 
     fetch("https://beyond-ksa.com/api/token/" + this.props.id, options)
-        .then(red => red.json())
-        .then(res => {
-          toastRef.close();
-          if (res.success) {
-            alert(res.success);
-          }
-        })
+      .then(red => red.json())
+      .then(res => {
+        alert(JSON.stringify(res));
+        toastRef.close();
+
+        if (res.success) {
+          alert(res.success);
+        }
+      })
   }
 
   async componentWillMount() {
@@ -91,6 +93,7 @@ class Home extends Component {
     const { navigation, name, locale, id } = this.props;
     this.registerForPushNotificationsAsync().then(token => {
       if (token) {
+        alert(token.toString())
         this.tokenApiCall(token)
       }
     });
