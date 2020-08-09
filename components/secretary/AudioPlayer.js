@@ -1,7 +1,7 @@
 import React, { Component, useState, useEffect, useRef } from "react";
 import { View, Text, TouchableOpacity, Image, Modal ,Alert,StyleSheet} from "react-native";
 import {Audio} from "expo-av";
-import {AntDesign, Entypo, Feather, FontAwesome5} from '@expo/vector-icons';
+import {AntDesign, Entypo, Feather, FontAwesome, FontAwesome5} from '@expo/vector-icons';
 import theme from "../../Theme";
 import Slider from 'react-native-slider';
 
@@ -19,18 +19,18 @@ const AudioPlayer = (props) => {
     const [soundPosition, setSoundPosition] = useState(null);
     const [isSeeking, setIsSeeking] = useState(false);
     const [shouldPlayAtEndOfSeek, setShouldPlayAtEndOfSeek] = useState(false)
-    const [shouldPlay, setShouldPlay] = useState(false)
+    const [shouldPlay, setShouldPlay] = useState(false);
+    const [isPlaying, setIsPlaying] = useState(false);
     const updateScreenForSoundStatus = (status) => {
-        //   setState(PAUSED_PLAY);
-        console.log("status ==== ", status);
+        // console.log("status ==== ", status);
         if (status.didJustFinish) {
             setPlayState(PAUSED_PLAY);
         }
-
         if (status.isLoaded) {
             setSoundDuration(status.durationMillis);
             setSoundPosition(status.positionMillis);
-            setShouldPlay(status.shouldPlay)
+            setShouldPlay(status.shouldPlay);
+            setIsPlaying(status.isPlaying);
         } else {
             setSoundDuration(status.durationMillis);
             setSoundPosition(status.positionMillis);
@@ -49,10 +49,9 @@ const AudioPlayer = (props) => {
             playsInSilentLockedModeIOS: true,
             shouldDuckAndroid: true,
             interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
-            playThroughEarpieceAndroid: true,
         });
         let initialPlaybackStatus = {
-            isLooping: true,
+            isLooping: false,
             isMuted: false,
             volume: 1.0,
             rate: 1.0,
@@ -63,7 +62,6 @@ const AudioPlayer = (props) => {
             await sound
                 .loadAsync({uri}, initialPlaybackStatus)
                 .then(playbackStatus => {
-                    console.log("playback status  ----> ", JSON.stringify(playbackStatus));
                     const {durationMillis} = playbackStatus;
                     setSoundDuration(durationMillis)
                 }).catch((error) => {
@@ -109,36 +107,22 @@ const AudioPlayer = (props) => {
         return padWithZero(minutes) + ':' + padWithZero(seconds);
     }
 
-    const _onPlayPausePressed = () => {
-        if (sound != null) {
-            if (playState === PLAYING) {
-                sound.pauseAsync();
-            } else {
-                sound.playAsync();
-            }
-        }
-    };
-
-    const _onStopPressed = () => {
-        if (sound != null) {
-            sound.stopAsync();
-        }
-    };
-
-    const onPlayStopPressed = () => {
-        console.log("onPlayStopPressed  ----> ",JSON.stringify(playState));
+    const onPlayStopPressed = async () => {
         if (sound !== null) {
-            if (playState === PLAYING) {
-                sound.stopAsync();
+            if (isPlaying) {
+                await sound.stopAsync();
+                setPlayState(PAUSED_PLAY)
             } else {
-                sound.playAsync();
+                await sound.playAsync();
+                setPlayState(PLAYING)
             }
         }
     }
 
-    const onPausedPress = () => {
+    const onPausedPress = async () => {
         if (sound !== null && playState === PLAYING) {
-            sound.pauseAsync();
+            await sound.pauseAsync();
+            setPlayState(PAUSED_PLAY)
         }
     }
 
@@ -174,6 +158,25 @@ const AudioPlayer = (props) => {
         }
     };
 
+    const _onForwardPressed =async () => {
+        if (sound != null) {
+            setShouldPlayAtEndOfSeek(shouldPlay)
+            await sound.pauseAsync();
+            const seekPosition = 0.1 * soundDuration;
+            if (shouldPlayAtEndOfSeek) {
+                await sound.playFromPositionAsync(seekPosition);
+            } else {
+                await sound.setPositionAsync(seekPosition);
+            }
+        }
+    };
+
+    const _onBackPressed = async () => {
+        if (sound != null) {
+           //todo:
+        }
+    };
+
     useEffect( () => {
         setAudioMode()
     },[]);
@@ -182,15 +185,26 @@ const AudioPlayer = (props) => {
         <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
             <View style={{
                 flexDirection: 'row',
-                justifyContent: 'space-between',
                 alignItems: 'center',
+                height: 40
             }}>
-                <AntDesign name="fastbackward" size={20} color="black" style={{marginHorizontal:20}} onPress={()=>{
-                    console.log("back  ----> ");
-                }}/>
-                <Entypo name="controller-play" size={30} color={theme.primary} style={{marginHorizontal:20}} onPress={onPlayStopPressed}/>
-                <AntDesign name="fastforward" size={20} color="black" style={{marginHorizontal:20}}/>
-                <FontAwesome5 name="pause" size={24} color={theme.primary} style={{marginHorizontal:20}} onPress={onPausedPress}/>
+                <AntDesign name="fastbackward" size={20} color="black" style={{marginHorizontal: 20}}
+                           onPress={_onBackPressed}/>
+                <View style={{
+                    margin: 20,
+                    height: 33,
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                }}>
+                    {isPlaying ?
+                        <FontAwesome name="stop" size={20} color={theme.primary} onPress={onPlayStopPressed}/> :
+                        <Entypo name="controller-play" size={30} color={theme.primary}
+                                onPress={onPlayStopPressed}/>}
+                </View>
+                <AntDesign name="fastforward" size={20} color="black" style={{marginHorizontal: 20}}
+                           onPress={_onForwardPressed}/>
+                <FontAwesome5 name="pause" size={24} color={theme.primary} style={{marginHorizontal: 20}}
+                              onPress={onPausedPress}/>
             </View>
             <Slider
                 style={{alignSelf: 'stretch',}}
