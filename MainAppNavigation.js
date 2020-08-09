@@ -47,6 +47,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Provider } from 'react-redux'
 import * as NavigationService from './services/navigationService'
+import EditUserProfile from "./screens/client/EditUserProfile";
 
 
 const Tab = createBottomTabNavigator();
@@ -60,16 +61,16 @@ const defaultScalingDrawerConfig = {
 };
 
 
-const HomeTabNavigator = () => {  
+const HomeTabNavigator = () => {
   return (
     <Stack.Navigator
       initialRouteName="Home"
-      screenOptions={{ headerShown: false }}>                 
+      screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Home" component={Home} options={{ gestureEnabled: false }} />
       <Stack.Screen name="OrderHistory" component={OrderHistory} options={{ gestureEnabled: false }} />
       <Stack.Screen name="Contacts" component={Contacts} options={{ gestureEnabled: false }} />
       <Stack.Screen name="addContact" component={addContact} options={{ gestureEnabled: false }} />
-      <Stack.Screen name="SecretaryProfile" component={SecretaryProfile} options={{ gestureEnabled: false }} />   
+      <Stack.Screen name="SecretaryProfile" component={SecretaryProfile} options={{ gestureEnabled: false }} />
       <Stack.Screen name="Subscribe" component={Subscribe} options={{ gestureEnabled: false }} />
       <Stack.Screen name="Trips" component={Trips} options={{ gestureEnabled: false }} />
       <Stack.Screen name="SocialLife" component={SocialLife} options={{ gestureEnabled: false }} />
@@ -94,15 +95,15 @@ const HomeTabNavigator = () => {
       <Stack.Screen name="InProcess" component={InProcess} options={{ gestureEnabled: false }} />
       <Stack.Screen name="RequestList" component={RequestList} options={{ gestureEnabled: false }} />
     </Stack.Navigator>
-   
-  );  
+
+  );
 }
 
-const SecretaryTabNavigator = () => {  
+const SecretaryTabNavigator = () => {
   return (
     <Stack.Navigator
       initialRouteName="Home"
-      screenOptions={{ headerShown: false }}>                 
+      screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Home" component={Profile} options={{ gestureEnabled: false }} />
       <Stack.Screen name="OrderHistory" component={OrderHistory} options={{ gestureEnabled: false }} />
       <Stack.Screen name="Contacts" component={Contacts} options={{ gestureEnabled: false }} />
@@ -131,7 +132,7 @@ const SecretaryTabNavigator = () => {
       <Stack.Screen name="InProcess" component={InProcess} options={{ gestureEnabled: false }} />
       <Stack.Screen name="RequestList" component={RequestList} options={{ gestureEnabled: false }} />
     </Stack.Navigator>
-  );  
+  );
 }
 
 const NotificationTabNavigator = () => {
@@ -148,7 +149,7 @@ const ProfileTabNavigator = () => {
     <Stack.Navigator
       initialRouteName="Profile"
       screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Profile" component={SecretaryProfile} options={{ gestureEnabled: false }} />
+      <Stack.Screen name="Profile" component={EditUserProfile} options={{ gestureEnabled: false }} />
     </Stack.Navigator>
   );
 }
@@ -164,7 +165,7 @@ const ChatTabNavigator = () => {
 
 
 class AppNavigation extends Component {
-  
+
   constructor(props){
     super(props);
     this.state = {
@@ -176,7 +177,7 @@ class AppNavigation extends Component {
   componentDidMount(){
     this.retrieveData()
   }
-  
+
   retrieveData = () => {
       AsyncStorage.getItem("user_type", (err, value) => {
         if (value !== null) {
@@ -186,9 +187,9 @@ class AppNavigation extends Component {
     })
   }
 
-  render() {    
-            
-    return (      
+  render() {
+
+    return (
       <ScalingDrawer
         ref={drawer}
         content={<Menu drawer={drawer} />}
@@ -197,8 +198,8 @@ class AppNavigation extends Component {
         onClose={() => console.log('close')}
         onOpen={() => console.log('open')}
       >
-        <Tab.Navigator tabBar={props => <CustomizedBottomTabBar {...props} />}>        
-        {this.state.val === "secretary" ? <Tab.Screen name="HomeTab" component={SecretaryTabNavigator} /> :  <Tab.Screen name="HomeTab" component={HomeTabNavigator}/>}        
+        <Tab.Navigator tabBar={props => <CustomizedBottomTabBar {...props} />}>
+        {this.state.val === "secretary" ? <Tab.Screen name="HomeTab" component={SecretaryTabNavigator} /> :  <Tab.Screen name="HomeTab" component={HomeTabNavigator}/>}
         <Tab.Screen name="NotificationTab" component={NotificationTabNavigator} />
         <Tab.Screen name="ProfileTab" component={ProfileTabNavigator} />
         <Tab.Screen name="ChatTab" component={ChatTabNavigator} />
