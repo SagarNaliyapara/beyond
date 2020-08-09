@@ -47,7 +47,7 @@ let titleList = [{
 
 
 
-const EditUserProfile = (props) => {
+const EditSecretaryProfile = (props) => {
     const authRed = useSelector(state => state.auth);
     const [country, setCountry] = useState({
         callingCode: ['1'],
@@ -293,7 +293,7 @@ const mapStateToProps = state => ({
     attempting: state.auth.attempting
 })
 
-export default connect(mapStateToProps, null)(EditUserProfile)
+export default connect(mapStateToProps, null)(EditSecretaryProfile)
 
 const styles = StyleSheet.create({
     container: {

@@ -48,6 +48,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Provider } from 'react-redux'
 import * as NavigationService from './services/navigationService'
 import EditUserProfile from "./screens/client/EditUserProfile";
+import EditSecretaryProfile from "./screens/secretary/EditSecretaryProfile";
 
 
 const Tab = createBottomTabNavigator();
@@ -94,6 +95,7 @@ const HomeTabNavigator = () => {
       <Stack.Screen name="Completed" component={Completed} options={{ gestureEnabled: false }} />
       <Stack.Screen name="InProcess" component={InProcess} options={{ gestureEnabled: false }} />
       <Stack.Screen name="RequestList" component={RequestList} options={{ gestureEnabled: false }} />
+        <Stack.Screen name="EditUserProfile" component={EditUserProfile} options={{ gestureEnabled: false }} />
     </Stack.Navigator>
 
   );
@@ -131,6 +133,7 @@ const SecretaryTabNavigator = () => {
       <Stack.Screen name="Completed" component={Completed} options={{ gestureEnabled: false }} />
       <Stack.Screen name="InProcess" component={InProcess} options={{ gestureEnabled: false }} />
       <Stack.Screen name="RequestList" component={RequestList} options={{ gestureEnabled: false }} />
+      <Stack.Screen name="EditSecretaryProfile" component={EditSecretaryProfile} options={{ gestureEnabled: false }} />
     </Stack.Navigator>
   );
 }

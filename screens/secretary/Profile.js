@@ -20,11 +20,13 @@ import * as Permissions from "expo-permissions";
 import { Notifications } from "expo";
 import { useSelector } from "react-redux";
 import reactotron from "reactotron-react-native";
+import TransText from "../../components/both/transtext";
 
 
-const Profile = () => {
-    const navigation = useNavigation();
+const Profile = (props) => {
     const authRed = useSelector((state) => state.auth);
+    const appRed = useSelector((state) => state.app);
+    const navigation = useNavigation();
     const registerForPushNotificationsAsync = async () => {
         const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
         let finalStatus = existingStatus;
@@ -84,6 +86,15 @@ const Profile = () => {
                             <Image source={{ uri: authRed.user.picture ? authRed.user.picture : sampleimg }} style={styles.img} />
                             <View>
                                 <Text style={styles.name}>{authRed.name ? authRed.name : "-"}</Text>
+                                <View style={{  paddingLeft: wp(5)}}>
+                                    <TransText onPress={() => navigation.navigate("EditSecretaryProfile")}
+                                               style={[
+                                                   styles.subtitle,
+                                                   appRed.locale == "ar" && {textAlign: "right"},
+                                               ]}
+                                               transkey="EDIT_PROFILE"
+                                    />
+                                </View>
                             </View>
                         </View>
 

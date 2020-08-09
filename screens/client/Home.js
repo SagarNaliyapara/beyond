@@ -144,7 +144,7 @@ class Home extends Component {
               >
                 {name}
               </Text>
-              <TransText onPress={() => navigation.navigate("ProfileTab")}
+              <TransText onPress={() => navigation.navigate("EditUserProfile")}
                 style={[
                   styles.subtitle,
                   locale == "ar" && { textAlign: "right" },
