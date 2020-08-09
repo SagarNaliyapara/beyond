@@ -164,7 +164,7 @@ const Trips = () => {
                             </View>
                             <View style={{ flexDirection: 'row' }}>
                                 <TouchableOpacity onPress={() => { setVisible(true), setAppRedData(item) }} style={styles.mainButton}>
-                                    <Text style={styles.btnText}>status_here</Text>
+                                    <Text style={styles.btnText}>{item.status}</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                     onPress={() => navigation.navigate("ChatTab")}
@@ -281,22 +281,22 @@ const Trips = () => {
 
                         {/* <View style={{flexDirection:'row',marginTop:hp(1.5)}}>
                          <View style={{marginLeft:wp(7),width:'40%',height:hp(7),borderBottomColor:'#e5e5e5',borderBottomWidth:1}}>
-                             
+
                              <View style={{flexDirection:'row'}}>
                              <Feather name="globe" size={15} color={theme.primary} />
                              <Text style={{paddingLeft:5,fontFamily:theme.pop,color:theme.primary,fontSize:theme.small}}>From</Text>
                              </View>
                              <Text style={{paddingLeft:5,fontFamily:theme.pop,color:theme.secondary,fontSize:theme.medium}}>Jeddah</Text>
-                        
+
                          </View>
                          <View style={{marginLeft:wp(1),width:'40%',height:hp(7),borderBottomColor:'#e5e5e5',borderBottomWidth:1}}>
-                             
+
                              <View style={{flexDirection:'row'}}>
                              <Feather name="globe" size={15} color={theme.primary} />
                              <Text style={{paddingLeft:5,fontFamily:theme.pop,color:theme.primary,fontSize:theme.small}}>To</Text>
                              </View>
                              <Text style={{paddingLeft:5,fontFamily:theme.pop,color:theme.secondary,fontSize:theme.medium}}>Banagalore</Text>
-                        
+
                          </View>
                         </View> */}
                         {/* half container*/}

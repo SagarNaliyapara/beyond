@@ -57,7 +57,7 @@ const AudioPlayer = (props) => {
             rate: 1.0,
             shouldCorrectPitch: true,
         };
-        let uri =audioUri;
+        let uri =props.uri;
         try {
             await sound
                 .loadAsync({uri}, initialPlaybackStatus)

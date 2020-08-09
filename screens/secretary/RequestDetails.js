@@ -79,7 +79,7 @@ const RequestDetails = (props) => {
 
 
                         <View style={{ height: 100 }}>
-                            <AudioPlayer/>
+                            <AudioPlayer uri={props.route.params.uri}/>
                         </View>
 
 

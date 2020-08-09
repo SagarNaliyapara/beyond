@@ -94,15 +94,15 @@ const Hotels = () => {
         user_id:authRed.user_id,
         request_type:"hotels"
     }
-   
-   
+
+
     useEffect(() => {
-      
+
        if(isCalled == "false"){
        dispatch(Actions.getHotelAttempt(hotelsData))
        }
        setIsCalled("true")
-        
+
       })
     //   alert(JSON.stringify(appRed.requestData))
 
@@ -176,7 +176,7 @@ const Hotels = () => {
 
                             <View style={{ flexDirection: 'row' }}>
                                 <TouchableOpacity onPress={() => {setVisible(true),setAppRedData(item)}} style={styles.mainButton}>
-                                    <Text style={styles.btnText}>status_here</Text>
+                                    <Text style={styles.btnText}>{item.status}</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity onPress={() => navigation.navigate("ChatTab")}
                                 style={styles.secondButton}>
@@ -390,7 +390,7 @@ const styles = StyleSheet.create({
         color: theme.secondary,
         fontFamily: theme.pop,
         top:hp(1)
-        
+
     },
     secondSubText: {
         fontSize: theme.xl,
@@ -398,8 +398,8 @@ const styles = StyleSheet.create({
         fontFamily: theme.pop,
         paddingLeft: wp(9),
         top:hp(1)
-       
-       
+
+
     },
     mainButton: {
         backgroundColor: theme.primary,
