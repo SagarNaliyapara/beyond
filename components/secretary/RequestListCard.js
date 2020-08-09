@@ -25,7 +25,13 @@ const RequestListCard = (props) => {
 
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate("RequestDetails")}
+      onPress={() => navigation.navigate("RequestDetails", {
+        name: props.name,
+        requestname: props.requestname,
+        uri: props.uri,
+        time: props.time,
+        date: props.date
+      })}
       style={[styles.container,]}
     >
       <View style={styles.leftEntry}>

@@ -18,6 +18,7 @@ import Footer from "../../components/both/Footer";
 import HeaderSmall from "../../components/both/HeaderSmall";
 import RequestListCard from "../../components/secretary/RequestListCard";
 import Actions from "../../actions/creator"
+import reactotron from "reactotron-react-native";
 
 //replace with your json data for order history
 const requestlist = [
@@ -114,6 +115,9 @@ const RequestList = () => {
       <View style={styles.body}>
         {/* flat list to render custom notifications, please use this component to filter out the list 
                     that you want to keep as "Now" and "Earlier" */}
+        {
+          reactotron.log("appRed.voiceMessages", appRed.voiceMessages)
+        }
         <FlatList
           data={appRed.voiceMessages ? appRed.voiceMessages.messages : []}
           renderItem={({ item }) => {

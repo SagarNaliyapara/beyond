@@ -24,9 +24,11 @@ import Sec_service_icon from "../../assets/service.svg"
 import Contact_icon from "../../assets/contact.svg"
 import Order_History_icon from "../../assets/history.svg"
 import helpers from "../../components/styles/helpers";
+import reactotron from "reactotron-react-native";
 
-const RequestDetails = () => {
+const RequestDetails = (props) => {
     const navigation = useNavigation();
+    reactotron.log("aa", props)
     const user = "https://randomuser.me/api/portraits/women/8.jpg"
     return (
         <ImageBackground source={require('../../assets/bg.png')} style={styles.container}>
@@ -49,7 +51,7 @@ const RequestDetails = () => {
                         <View style={{ flexDirection: 'row', alignItems: 'center', paddingLeft: 12 }}>
                             <Image source={{ uri: user }} style={{ height: 75, width: 75, borderRadius: 50 }} />
                             <View style={{ paddingLeft: wp(3) }}>
-                                <Text style={styles.nameTitle}>Beyond</Text>
+                                <Text style={styles.nameTitle}>{props.route.params.name}</Text>
                                 <Text style={styles.caption}>Request new items</Text>
                             </View>
                         </View>
