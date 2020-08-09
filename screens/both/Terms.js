@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {useEffect, useState} from "react";
 import {
     View,
     Text,
@@ -6,19 +6,35 @@ import {
     ImageBackground,
     StatusBar,
     TouchableOpacity,
-    TextInput,
-    Image,
     Platform
 } from "react-native";
 import theme from '../../Theme'
 import { connect } from "react-redux"
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { Ionicons, Feather, MaterialCommunityIcons } from '@expo/vector-icons'
+import { Ionicons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native';
 import { ScrollView } from "react-native-gesture-handler";
 import TransText from "../../components/both/transtext";
+import HtmlText from "react-native-html-to-text";
 const Terms = (props) => {
     const navigation = useNavigation();
+    const [termsAndCondition, setTermsAndCondition] = useState('');
+    const fetchTermsAndCondition=()=>{
+        const options = {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+            },
+        };
+        fetch("https://beyond-ksa.com/api/terms-and-conditions", options)
+            .then(red => red.json())
+            .then(responseJson => {
+                setTermsAndCondition(responseJson.success);
+            })
+    }
+    useEffect(() => {
+        fetchTermsAndCondition();
+    }, [])
+
     return (
         <ImageBackground source={require('../../assets/bg.png')} style={styles.container}>
             <View style={styles.headerContainer}>
@@ -39,7 +55,8 @@ const Terms = (props) => {
             <View style={styles.signinContainerWhite}>
 
                 <ScrollView showsVerticalScrollIndicator={false}>
-                    <TransText style={[styles.termsText, props.locale == "ar" && { textAlign: 'right' }]} transkey="TERMS_DESC" />
+                    <HtmlText style={[styles.termsText, props.locale == "ar" && {textAlign: 'right'}]}
+                              html={termsAndCondition ? (props.locale == "ar" ? termsAndCondition.page_body_arabic : termsAndCondition.page_body) : ''}/>
                 </ScrollView>
 
             </View>

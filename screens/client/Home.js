@@ -74,16 +74,14 @@ class Home extends Component {
         }
       },
     };
-
     fetch("https://beyond-ksa.com/api/token/" + this.props.id, options)
       .then(red => red.json())
       .then(res => {
-        alert(JSON.stringify(res));
-        toastRef.close();
-
         if (res.success) {
           alert(res.success);
         }
+      }).catch((error) => {
+        // console.log("error  ----> ",JSON.stringify(error));
       })
   }
 
