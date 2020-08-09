@@ -23,12 +23,12 @@ const core = (baseURL = AppConfig.API_URL) => {
 
   api.addAsyncRequestTransform(request => async () => {
     Reactotron.log("rr", request)
-    console.log("req", request)
+    // console.log("req", request)
   })
   // // For Monitoring the status and handele the errors
   api.addMonitor(response => {
     Reactotron.log("mm", response)
-    console.log("res", response)
+    // console.log("res", response)
   });
 
   const login = (user) => api.post(ENDPOINT.LOGIN, user);
@@ -43,7 +43,7 @@ const core = (baseURL = AppConfig.API_URL) => {
       },
       timeout: 20000,
     });
-    console.log(phoneNumber, msg);
+    // console.log(phoneNumber, msg);
     return alfa_cell_api.get(
       `https://www.alfa-cell.com/api/msgSend.php?apiKey=${AppConfig.alfa_cell_apiKey}&numbers=${phoneNumber}&sender=Beyond&msg=${msg}&applicationType=68&domanName=beyond.com&returnJson=1`
     );
